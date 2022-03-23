@@ -70,5 +70,7 @@ Attention: Daemon mode must be enabled in the configuration file (default) - Sys
 
 ## Credits
 marc1de:   https://github.com/marc1de
+
 EMS-ESP32: https://github.com/emsesp/EMS-ESP32/issues/399
+
 EMS-ESP:   https://bbqkees-electronics.nl
