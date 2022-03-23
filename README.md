@@ -18,12 +18,22 @@ A Python application that reads the data from EMS-ESP and the gas meter, recalcu
 
 
 ## Installation
+
+1. Clone the project 
+2. Install python requirements
+3. Edit the properties for the configuration
+4. Edit the default values 
+5. Set the permissions for the python application
+6. Firs start
+
+
 ```bash
 root@devhost:  git clone https://github.com/zibous/gasverbrauch.git /opt/gasverbrauch
 root@devhost:  cd /opt/gasverbrauch
 root@devhost:  sudo pip3 install -r requirements.txt
 root@devhost:  cp conf_default.py  config.py
 root@devhost:  nano config.py
+root@devhost:  nano data/gb172_default.json
 root@devhost:  chmod +x app.py
 root@devhost:  python3 app.py  ## or ./app.py
 ```
@@ -36,7 +46,7 @@ root@devhost:  python3 app.py  ## or ./app.py
  - lib
    Python3 lib directiory
  - data
-   data folder, holds histroy and report data
+   data folder, holds default, histroy and report data
  - log
    log folder
 
