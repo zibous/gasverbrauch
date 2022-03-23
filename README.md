@@ -22,7 +22,7 @@ A Python application that reads the data from EMS-ESP and the gas meter, recalcu
 root@devhost:  git clone https://github.com/zibous/gasverbrauch.git /opt/gasverbrauch
 root@devhost:  cd /opt/gasverbrauch
 root@devhost:  sudo pip3 install -r requirements.txt
-root@devhost:  cp config.py.dist config.py
+root@devhost:  cp conf_default.py  config.py
 root@devhost:  nano config.py
 root@devhost:  chmod +x app.py
 root@devhost:  python3 app.py  ## or ./app.py
