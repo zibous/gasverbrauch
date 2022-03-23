@@ -1,0 +1,437 @@
+[{
+        "section": "",
+        "field": "heater_active",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:fire-circle",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "boiler_active",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:water-boiler",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "tapwater_active",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:water-boiler",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "boiler_disinfecting",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+
+    {
+        "section": "",
+        "field": "burngas",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:radiator",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "boiler_disinfecting-start",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "boiler_disinfecting-end",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "runnig_total_sec",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "runnig_heater_sec",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:timer-settings-outline",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "runnig_boiler_sec",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:timer-settings-outline",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "runnig_heater_ratio",
+        "type": "sensor",
+        "unit": "%",
+        "device_class": "power_factor",
+        "class": "measurement",
+        "icon": "mdi:relative-scale",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "runnig_boiler_ratio",
+        "type": "sensor",
+        "unit": "%",
+        "device_class": "power_factor",
+        "class": "measurement",
+        "icon": "mdi:relative-scale",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "servicecodenumber",
+        "type": "sensor",
+        "unit": "",
+        "class": "measurement",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "gas_total",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "gas_heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "gas_boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "mode",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "gasverbrauch_boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "gasverbrauch_heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "gasverbrauch",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "elapsed_time",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_hour",
+        "field": "boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_hour",
+        "field": "heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_hour",
+        "field": "disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_hour",
+        "field": "boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_day",
+        "field": "heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_day",
+        "field": "disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_month",
+        "field": "boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_month",
+        "field": "heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_month",
+        "field": "disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_year",
+        "field": "boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_year",
+        "field": "heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "gas_per_year",
+        "field": "disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_gaszähler_anzeige",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_gaszähler_aktuell",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_gaszähler_impulse",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_gasverbrauch_heute",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_gasverbrauch_stunde",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_kilowattstunde_gas_gesamt",
+        "type": "sensor",
+        "unit": "kWh",
+        "device_class": "energy",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_kilowattstunde_gas_heute",
+        "type": "sensor",
+        "unit": "kWh",
+        "device_class": "energy",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_kilowattstunde_gas_stunde",
+        "type": "sensor",
+        "unit": "kWh",
+        "device_class": "energy",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_kaltwasser_wasserdruck",
+        "type": "sensor",
+        "unit": "kWh",
+        "device_class": "energy",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "Esp32_data",
+        "field": "wug_kaltwasser_temperatur",
+        "type": "sensor",
+        "device_class": "temperature",
+        "unit": "°C",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "lasterror",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "section": "",
+        "field": "dattimestamp",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:timer-outline",
+        "enabled": 1
+    }
+]

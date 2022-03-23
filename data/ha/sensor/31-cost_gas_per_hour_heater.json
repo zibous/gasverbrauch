@@ -1,0 +1,16 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-cost-gas-per-hour.heater",
+  "stat_t": "~/gas_data",
+  "name": "GMI Kosten Heizung pro Stunde",
+  "val_tpl": "{{value_json.cost_gas_per_hour.heater}}",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "unit_of_meas": "€",
+  "state_class": "measurement",
+  "icon": "mdi:counter",
+  "device_class": "monetary"
+}

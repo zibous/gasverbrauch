@@ -1,0 +1,19 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-boiler-disinfecting-start",
+  "stat_t": "~/gas_data",
+  "name": "GMI Boiler desinfizieren Start",
+  "val_tpl": "{{value_json.boiler_disinfecting_start}}",
+  "dev": {
+    "sa": "Heizung",
+    "ids": [
+      "ESP-Gasmeter"
+    ],
+    "name": "ESP Gasmeter",
+    "mf": "Elster",
+    "mdl": "Gasbalgenzähler Elster BK-G4 MT",
+    "sw": "1.0.3",
+    "via_device": "esp-gasmeter"
+  },
+  "icon": "mdi:information-outline"
+}

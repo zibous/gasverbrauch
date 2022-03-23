@@ -1,0 +1,22 @@
+[Unit]
+# cp service.template /etc/systemd/system/gasverbrauch.service
+# systemctl start gasverbrauch
+# systemctl enable gasverbrauch
+
+Description=Smartmeter Gascounter data provider
+Documentation=https://github.com/zibous/ha-gasmeter
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/gasverbrauch/
+ExecStart=/usr/bin/python3 /opt/gasverbrauch/app.py
+StandardOutput=null
+
+
+StandardError=journal
+Environment=PYTHONUNBUFFERED=true
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

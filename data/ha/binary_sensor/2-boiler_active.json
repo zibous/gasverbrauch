@@ -1,0 +1,15 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-boiler-active",
+  "stat_t": "~/gas_data",
+  "name": "GMI Warmwasserboiler",
+  "val_tpl": "{{value_json.boiler_active}}",
+  "payload_on": "on",
+  "payload_off": "off",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "icon": "mdi:water-boiler"
+}

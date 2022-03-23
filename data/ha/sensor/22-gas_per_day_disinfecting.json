@@ -1,0 +1,16 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-gas-per-day.disinfecting",
+  "stat_t": "~/gas_data",
+  "name": "GMI Gas Boilerdesinfizierung pro Tag",
+  "val_tpl": "{{value_json.gas_per_day.disinfecting}}",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "unit_of_meas": "m³",
+  "state_class": "measurement",
+  "icon": "mdi:counter",
+  "device_class": "gas"
+}

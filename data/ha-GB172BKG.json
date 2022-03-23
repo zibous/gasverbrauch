@@ -1,0 +1,410 @@
+[{
+        "name": "Heizkreis",
+        "field": "heater_active",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:fire-circle",
+        "enabled": 1
+    },
+    {
+        "name": "Warmwasserboiler",
+        "field": "boiler_active",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:water-boiler",
+        "enabled": 1
+    },
+    {
+        "name": "Boiler desinfizieren",
+        "field": "boiler_disinfecting",
+        "type": "binary_sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "name": "Boiler desinfizieren Start",
+        "field": "boiler_disinfecting_start",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "name": "Boiler desinfizieren Ende",
+        "field": "boiler_disinfecting_end",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:information-outline",
+        "enabled": 1
+    },
+    {
+        "name": "Boiler desinfizieren Zeit",
+        "field": "boiler_disinfecting_sec",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Betriebsdauer",
+        "field": "runnig_total_sec",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Betriebsdauer Heizkreis",
+        "field": "runnig_heater_sec",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:timer-settings-outline",
+        "enabled": 1
+    },
+    {
+        "name": "Betriebsdauer Boiler",
+        "field": "runnig_boiler_sec",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:timer-settings-outline",
+        "enabled": 1
+    },
+    {
+        "name": "Heizkreis Anteil",
+        "field": "runnig_heater_ratio",
+        "type": "sensor",
+        "unit": "%",
+        "device_class": "power_factor",
+        "class": "measurement",
+        "icon": "mdi:relative-scale",
+        "enabled": 1
+    },
+    {
+        "name": "Boiler Anteil",
+        "field": "runnig_boiler_ratio",
+        "type": "sensor",
+        "unit": "%",
+        "device_class": "power_factor",
+        "class": "measurement",
+        "icon": "mdi:relative-scale",
+        "enabled": 1
+    },
+    {
+        "name": "Gasverbrauch gesamt",
+        "field": "gas_total",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gasverbrauch Heizkreis gesamt",
+        "field": "gas_heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gasverbrauch Boiler gesamt",
+        "field": "gas_boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gasverbrauch Boiler aktuell",
+        "field": "gasverbrauch_boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gasverbrauch Heizkreis aktuell",
+        "field": "gasverbrauch_heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Messzeit",
+        "field": "elapsed_time",
+        "type": "sensor",
+        "unit": "s",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boiler pro Stunde",
+        "field": "gas_per_hour.boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Heizkreis pro Stunde",
+        "field": "gas_per_hour.heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boilerdesinfizierung pro Stunde",
+        "field": "gas_per_hour.disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boiler pro Tag",
+        "field": "gas_per_day.boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Heizkreis pro Tag",
+        "field": "gas_per_day.heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boilerdesinfizierung pro Tag",
+        "field": "gas_per_day.disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boiler pro Monat",
+        "field": "gas_per_month.boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Heizkreis pro Monat",
+        "field": "gas_per_month.heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boilerdesinfizierung pro Monat",
+        "field": "gas_per_month.disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boiler pro Jahr",
+        "field": "gas_per_year.boiler",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Heizkreis pro Jahr",
+        "field": "gas_per_year.heater",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gas Boilerdesinfizierung pro Jahr",
+        "field": "gas_per_year.disinfecting",
+        "type": "sensor",
+        "unit": "m³",
+        "device_class": "gas",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boiler pro Stunde",
+        "field": "cost_gas_per_hour.boiler",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Heizung pro Stunde",
+        "field": "cost_gas_per_hour.heater",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boilerdesinfizierung pro Stunde",
+        "field": "cost_gas_per_hour.disinfecting",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boiler pro Tag",
+        "field": "cost_gas_per_day.boiler",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Heizung pro Tag",
+        "field": "cost_gas_per_day.heater",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boilerdesinfizierung pro Tag",
+        "field": "cost_gas_per_day.disinfecting",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boiler pro Monat",
+        "field": "cost_gas_per_month.boiler",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Heizung pro Monat",
+        "field": "cost_gas_per_month.heater",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boilerdesinfizierung pro Monat",
+        "field": "cost_gas_per_month.disinfecting",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boiler pro Jahr",
+        "field": "cost_gas_per_year.boiler",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Heizung pro Jahr",
+        "field": "cost_gas_per_year.heater",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Kosten Boilerdesinfizierung pro Jahr",
+        "field": "cost_gas_per_year.disinfecting",
+        "type": "sensor",
+        "unit": "€",
+        "device_class": "monetary",
+        "class": "measurement",
+        "icon": "mdi:counter",
+        "enabled": 1
+    },
+    {
+        "name": "Gasverbrauch aktualisiert",
+        "field": "dattimestamp",
+        "type": "sensor",
+        "unit": "",
+        "class": "",
+        "icon": "mdi:timer-outline",
+        "enabled": 1
+    }
+]

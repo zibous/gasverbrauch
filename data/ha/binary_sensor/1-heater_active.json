@@ -1,0 +1,21 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-heater-active",
+  "stat_t": "~/gas_data",
+  "name": "GMI Heizkreis",
+  "val_tpl": "{{value_json.heater_active}}",
+  "payload_on": "on",
+  "payload_off": "off",
+  "dev": {
+    "sa": "Heizung",
+    "ids": [
+      "ESP-Gasmeter"
+    ],
+    "name": "ESP Gasmeter",
+    "mf": "Elster",
+    "mdl": "Gasbalgenzähler Elster BK-G4 MT",
+    "sw": "1.0.3",
+    "via_device": "esp-gasmeter"
+  },
+  "icon": "mdi:fire-circle"
+}

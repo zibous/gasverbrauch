@@ -1,0 +1,15 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-elapsed-time",
+  "stat_t": "~/gas_data",
+  "name": "GMI Messzeit",
+  "val_tpl": "{{value_json.elapsed_time}}",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "unit_of_meas": "s",
+  "state_class": "measurement",
+  "icon": "mdi:counter"
+}

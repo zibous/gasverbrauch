@@ -1,0 +1,16 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-gas-per-year.boiler",
+  "stat_t": "~/gas_data",
+  "name": "GMI Gas Boiler pro Jahr",
+  "val_tpl": "{{value_json.gas_per_year.boiler}}",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "unit_of_meas": "m³",
+  "state_class": "measurement",
+  "icon": "mdi:counter",
+  "device_class": "gas"
+}

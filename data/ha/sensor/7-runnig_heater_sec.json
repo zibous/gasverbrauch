@@ -1,0 +1,15 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-runnig-heater-sec",
+  "stat_t": "~/gas_data",
+  "name": "GMI Betriebsdauer Heizkreis",
+  "val_tpl": "{{value_json.runnig_heater_sec}}",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "unit_of_meas": "s",
+  "state_class": "measurement",
+  "icon": "mdi:timer-settings-outline"
+}

@@ -1,0 +1,16 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-gas-total",
+  "stat_t": "~/gas_data",
+  "name": "GMI Gasverbrauch gesamt",
+  "val_tpl": "{{value_json.gas_total}}",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "unit_of_meas": "m³",
+  "state_class": "measurement",
+  "icon": "mdi:counter",
+  "device_class": "gas"
+}

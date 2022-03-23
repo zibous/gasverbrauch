@@ -1,0 +1,16 @@
+{
+  "~": "ems-heizung",
+  "uniq_id": "gb172bkg-cost-gas-per-year.boiler",
+  "stat_t": "~/gas_data",
+  "name": "GMI Kosten Boiler pro Jahr",
+  "val_tpl": "{{value_json.cost_gas_per_year.boiler}}",
+  "dev": {
+    "ids": [
+      "ESP-Gasmeter"
+    ]
+  },
+  "unit_of_meas": "€",
+  "state_class": "measurement",
+  "icon": "mdi:counter",
+  "device_class": "monetary"
+}

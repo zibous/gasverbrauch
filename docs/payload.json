@@ -1,0 +1,56 @@
+{
+    "device": "GB172/14 + BK-G2.5",
+    "id": "GB172BKG",
+    "heater_active": "off",
+    "boiler_active": "off",
+    "tapwater_active": "off",
+    "runnig_total_sec": 6724800,
+    "runnig_heater_sec": 6130680,
+    "runnig_boiler_sec": 594120,
+    "runnig_heater_ratio": 0.91,
+    "runnig_boiler_ratio": 0.09,
+    "servicecodenumber": 204,
+    "boiler_disinfecting": "off",
+    "burngas": "off",
+    "gas_total": 768.243,
+    "gas_heater": 699.102,
+    "gas_boiler": 69.142,
+    "mode": "idle",
+    "gasverbrauch_boiler": 0.0,
+    "gasverbrauch_heater": 0.0,
+    "gasverbrauch": 0.0,
+    "elapsed_time": 98,
+    "gas_per_hour": {
+        "boiler": 0.0,
+        "heater": 0.0,
+        "disinfecting": 0.0
+    },
+    "gas_per_day": {
+        "boiler": 0.399,
+        "heater": 0.3,
+        "disinfecting": 0.0
+    },
+    "gas_per_month": {
+        "boiler": 0.799,
+        "heater": 2.1,
+        "disinfecting": 0.0
+    },
+    "gas_per_year": {
+        "boiler": 0.799,
+        "heater": 2.1,
+        "disinfecting": 0.0
+    },
+    "lasterror": "0Y(276) 24.11.2021 03:51 (0 min)",
+    "dattime": "Tue Mar 22 18:17:46 2022",
+    "datperiode": "2022-03-22",
+    "datmonth": "2022-03",
+    "datyear": "2022",
+    "dattimestamp": "2022-03-22T18:16:08",
+    "datlastupdate": "2022-03-22 18:16:08.376410",
+    "version": "1.0.3",
+    "hostname": "nuc2020",
+    "unit_of_measurement": "m\u00b3",
+    "state_class": "measurement",
+    "device_class": "gas",
+    "attribution": "Data provided by Peter Siebler"
+}

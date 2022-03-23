@@ -1,0 +1,79 @@
+{
+  "device": "GB172/14 + BK-G2.5",
+  "id": "GB172BKG",
+  "heater_active": "on",
+  "boiler_active": "off",
+  "tapwater_active": "off",
+  "runnig_total_sec": 6750060,
+  "runnig_heater_sec": 6153780,
+  "runnig_boiler_sec": 596280,
+  "runnig_heater_ratio": 0.91,
+  "runnig_boiler_ratio": 0.09,
+  "servicecodenumber": 200,
+  "boiler_disinfecting": "off",
+  "boiler_disinfecting_sec": 43200,
+  "boiler_disinfecting_start": "2022-03-23T04:00:00",
+  "boiler_disinfecting_end": "2022-03-23T05:00:00",
+  "burngas": "on",
+  "gas_total": 771.143,
+  "gas_heater": 701.74,
+  "gas_boiler": 69.403,
+  "lasterror": "0Y(276) 24.11.2021 03:51 (0 min)",
+  "mode": "heizung",
+  "gasverbrauch_boiler": 0.0,
+  "gasverbrauch_heater": 0.0,
+  "gasverbrauch": 0.0,
+  "elapsed_time": 0,
+  "gas_per_hour": {
+    "boiler": 0.0,
+    "heater": 0.1,
+    "disinfecting": 0.0
+  },
+  "gas_per_day": {
+    "boiler": 1.499,
+    "heater": 2.9,
+    "disinfecting": 0.7
+  },
+  "gas_per_month": {
+    "boiler": 26.4,
+    "heater": 37.7,
+    "disinfecting": 2.4
+  },
+  "gas_per_year": {
+    "boiler": 246.8,
+    "heater": 524.34,
+    "disinfecting": 28.8
+  },
+  "cost_gas_per_hour": {
+    "boiler": 0.0,
+    "heater": 0.08,
+    "disinfecting": 0.0
+  },
+  "cost_gas_per_day": {
+    "boiler": 1.19,
+    "heater": 2.29,
+    "disinfecting": 0.55
+  },
+  "cost_gas_per_month": {
+    "boiler": 20.87,
+    "heater": 29.81,
+    "disinfecting": 1.9
+  },
+  "cost_gas_per_year": {
+    "boiler": 195.12,
+    "heater": 414.54,
+    "disinfecting": 22.77
+  },
+  "dattime": "Wed Mar 23 18:10:44 2022",
+  "datperiode": "2022-03-23",
+  "datmonth": "2022-03",
+  "datyear": "2022",
+  "dattimestamp": "2022-03-23T18:10:44",
+  "datlastupdate": "2022-03-23 18:10:44.693098",
+  "version": "1.0.3",
+  "hostname": "nuc2020",
+  "unit_of_measurement": "m³",
+  "state_class": "measurement",
+  "device_class": "gas",
+  "attribution": "Data provided by Peter Siebler"
+}
