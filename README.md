@@ -194,7 +194,8 @@ You most probably want to execute the program continuously in the background. Th
 Attention: Daemon mode must be enabled in the configuration file (default) - Systemd service - on systemd powered systems the recommended option
 
 ```bash
-    root@devhost: sudo cp /opt/gasverbrauch/service.template /etc/systemd/system/gasverbrauch.service
+    root@devhost: sudo cp /opt/gasverbrauch/service.template \ 
+                         /etc/systemd/system/gasverbrauch.service
     root@devhost: sudo systemctl daemon-reload
     root@devhost: sudo systemctl start gasverbrauch.service
     root@devhost: sudo systemctl status gasverbrauch.service
