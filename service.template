@@ -4,7 +4,7 @@
 # systemctl enable gasverbrauch
 
 Description=Smartmeter Gascounter data provider
-Documentation=https://github.com/zibous/ha-gasmeter
+Documentation=https://github.com/zibous/gasverbrauch
 After=network.target
 
 [Service]
