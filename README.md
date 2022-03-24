@@ -33,7 +33,7 @@ root@devhost:  cd /opt/gasverbrauch
 root@devhost:  sudo pip3 install -r requirements.txt
 root@devhost:  cp conf_default.py  config.py
 root@devhost:  nano config.py
-root@devhost:  nano data/gb172_default.json
+root@devhost:  nano data/GB172BKG_default.json
 root@devhost:  chmod +x app.py
 root@devhost:  python3 app.py  ## or ./app.py
 ```
