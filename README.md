@@ -255,6 +255,9 @@ Attention: Daemon mode must be enabled in the configuration file (default) - Sys
   root@devhost: bash make_req.sh
 ```
 
+```bash
+  root@devhost: bash install_service.sh
+```
 
 ## Credits
 marc1de:   https://github.com/marc1de
