@@ -55,12 +55,10 @@ def publish_ha_discovery():
             for o in sensordata:
                 # check enabeld flag
                 if(int(o["enabled"] == 1)):
-
                     # build the payload based on the attributes for the selected item
-                    name = "GMI {}".format(o["name"])
+                    name = "{} {}".format(GASMETER_HA_ITEM_PREFIX, o["name"])
                     uqId = "{}-{}".format(SMARTMETER_ID.lower(), o["field"].replace("_", "-"))
                     val_tpl = "{{{{value_json.{}}}}}".format(o["field"])
-
                     if isFristBinary == True and (o["type"] == "binary_sensor"):
                         payload = {
                             "~": MQTT_BASETOPIC,

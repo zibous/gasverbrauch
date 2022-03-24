@@ -33,7 +33,7 @@ class Calculator():
 
     def __init__(self):
         log.debug('✔︎ Init {}, version {}'.format(__name__, self.version))
-        self.emsheaterFilename = "{}gb172.json".format(DATADIR)
+        self.emsheaterFilename = "{}{}.json".format(DATADIR,SMARTMETER_ID)
         self.prev_data = {}
         self.curr_data = {}
         self.ready = False

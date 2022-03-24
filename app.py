@@ -68,8 +68,10 @@ async def main():
     # send last will if MQTT is definded
     if MQTTHOST:
         # mqtt brocker defined, send LWT Topic
-        publish.single(MQTT_LWT_TOPIC, payload="Online", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
-        publish.single("esp-gasmeter/check/LWT", payload="Online", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
+        if MQTT_LWT_TOPIC:
+            publish.single(MQTT_LWT_TOPIC, payload="Online", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
+        if MQTT_CECHK_LWT_TOPIC:
+            publish.single(MQTT_CECHK_LWT_TOPIC, payload="Online", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
 
     """Connect to an ESPHome device and wait for state changes."""
     cli = aioesphomeapi.APIClient(ESP32_GASMETER_API, ESP32_GASMETER_PORT, ESP32_GASMETER_PASSWORD)
@@ -102,8 +104,10 @@ except KeyboardInterrupt:
 finally:
     if MQTTHOST:
         # send last will if MQTT is definded
-        publish.single(MQTT_LWT_TOPIC, payload="Offline", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
-        publish.single("esp-gasmeter/check/LWT", payload="Offline", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
+        if MQTT_LWT_TOPIC:
+            publish.single(MQTT_LWT_TOPIC, payload="Offline", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
+        if MQTT_CECHK_LWT_TOPIC:    
+            publish.single(MQTT_CECHK_LWT_TOPIC, payload="Offline", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
     # send the stop message to gotify
     gotify.sendMessage(APPS_NAME, "stoped: {} on {}".format(DATA_HOSTNAME, getTimestamp()))
     loop.close()

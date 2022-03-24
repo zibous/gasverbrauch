@@ -87,6 +87,7 @@ MQTTPORT = 1883
 MQTT_BASETOPIC = "ems-heizung"
 MQTTTOPIC = "ems-heizung/gas_data"
 MQTT_LWT_TOPIC = "ems-heizung/gas_data/LWT"
+MQTT_CECHK_LWT_TOPIC = "esp-gasmeter/check/LWT"
 MQTTCLIENT = "gasmeter.service"
 MQTTAUTH = {
     "username": "theMqttMaster",
@@ -98,7 +99,8 @@ MQTTAUTH = {
 GASMETER_HA_DISCOVERY_TOPIC = "homeassistant"
 GASMETER_HA_DISCOVERY_ID = "ESP-Gasmeter"
 GASMETER_HA_SECTION = "gas-data"
-GASMETER_HA_DISCOVERY_ITEMS = "{}ha-{}.json".format(DATADIR, SMARTMETER_ID)
+GASMETER_HA_ITEM_PREFIX = "GMI"
+GASMETER_HA_DISCOVERY_ITEMS = "{}HA-{}.json".format(DATADIR, SMARTMETER_ID)
 GASMETER_HA_DISCOVERY_SAVE = True
 
 # all for the influx database (optional)

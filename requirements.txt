@@ -1,5 +1,7 @@
-aioesphomeapi==10.8.2
-influxdb==5.3.1
-paho_mqtt==1.6.1
-requests==2.25.1
+influxdb==5.3.0
+pandas==1.2.3
 uptime==3.0.1
+aioesphomeapi==10.8.2
+requests==2.24.0
+conf==0.4.1
+paho_mqtt==1.6.1

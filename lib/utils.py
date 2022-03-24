@@ -44,10 +44,11 @@ def loadjsondata(filename: str = None) -> dict:
             if os.path.isfile(filename):
                 with open(filename, "r") as f:
                     data = json.load(f)
-            return None
-    except:
-        raise Exception(f"Reading {filename} file encountered an error")
-    return data
+            return data
+    except BaseException as e:
+        print(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+        return None
+
     
 def up_time() -> str:
     """calculates the uptime"""
@@ -147,15 +148,6 @@ def generate_csv_data(data: dict) -> str:
     csv_data += ",".join(new_row) + "\n"
     return csv_data
     
-def normalize_json(data: dict) -> dict:
-    new_data = dict()
-    for key, value in data.items():
-        if not isinstance(value, dict):
-            new_data[key] = value
-        else:
-            for k, v in value.items():
-                new_data[key + "_" + k] = v
-    return new_data
 
 def flatten_json(nested_json) -> string:
     """
@@ -180,24 +172,3 @@ def flatten_json(nested_json) -> string:
             
     flatten(nested_json)
     return out
-    
-def jsonFile2Csv(jsonfile:str=None, csvfile:str=None):
-    """convert nested json to csv """
-    try:
-        # Read the JSON file as python dictionary
-        data = loadjsondata(filename=jsonfile)
-        if data:
-          # Normalize the nested python dict
-          new_data = normalize_json(data=data)
-          if new_data:
-            # Pretty print the new dict object
-            print("New dict:", new_data)
-            # Generate the desired CSV data 
-            csv_data = generate_csv_data(data=new_data)
-            if csvfile:
-               # Save the generated CSV data to a CSV file
-               write_to_file(data=csv_data, filepath=csvfile)
-            else:
-               print(csv_data)
-    except:
-        raise Exception(f"jsonFile2Csv: Data to {jsonfile} encountered an error")

@@ -7,11 +7,11 @@ Used Folders and Files for this directory:
     all used discovery items for homeassistant
   + sensor
     all used discovery items for homeassistant
-+ gb172_default.json
++ GB172BKG_default.json
   Fallback for first start, if no history data present
-+ gb172.json
++ GB172BKG.json
   History data for the calculation (previous data)
-+ ha-GB172BKG.json
++ HA-GB172BKG.json
   Settings for homeassistant discovery items
 + README.md
   This file...

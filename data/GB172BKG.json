@@ -4,9 +4,9 @@
   "heater_active": "on",
   "boiler_active": "off",
   "tapwater_active": "off",
-  "runnig_total_sec": 6750060,
-  "runnig_heater_sec": 6153780,
-  "runnig_boiler_sec": 596280,
+  "runnig_total_sec": 6765300,
+  "runnig_heater_sec": 6167940,
+  "runnig_boiler_sec": 597360,
   "runnig_heater_ratio": 0.91,
   "runnig_boiler_ratio": 0.09,
   "servicecodenumber": 200,
@@ -15,63 +15,63 @@
   "boiler_disinfecting_start": "2022-03-23T04:00:00",
   "boiler_disinfecting_end": "2022-03-23T05:00:00",
   "burngas": "on",
-  "gas_total": 771.143,
-  "gas_heater": 701.74,
-  "gas_boiler": 69.403,
+  "gas_total": 772.842,
+  "gas_heater": 703.286,
+  "gas_boiler": 69.556,
   "lasterror": "0Y(276) 24.11.2021 03:51 (0 min)",
   "mode": "heizung",
   "gasverbrauch_boiler": 0.0,
   "gasverbrauch_heater": 0.0,
   "gasverbrauch": 0.0,
-  "elapsed_time": 0,
+  "elapsed_time": 34,
   "gas_per_hour": {
     "boiler": 0.0,
-    "heater": 0.1,
+    "heater": 1.699,
     "disinfecting": 0.0
   },
   "gas_per_day": {
-    "boiler": 1.499,
-    "heater": 2.9,
-    "disinfecting": 0.7
+    "boiler": 0.0,
+    "heater": 1.699,
+    "disinfecting": 0.0
   },
   "gas_per_month": {
     "boiler": 26.4,
-    "heater": 37.7,
+    "heater": 39.399,
     "disinfecting": 2.4
   },
   "gas_per_year": {
     "boiler": 246.8,
-    "heater": 524.34,
+    "heater": 526.039,
     "disinfecting": 28.8
   },
   "cost_gas_per_hour": {
     "boiler": 0.0,
-    "heater": 0.08,
+    "heater": 1.34,
     "disinfecting": 0.0
   },
   "cost_gas_per_day": {
-    "boiler": 1.19,
-    "heater": 2.29,
-    "disinfecting": 0.55
+    "boiler": 0.0,
+    "heater": 1.34,
+    "disinfecting": 0.0
   },
   "cost_gas_per_month": {
     "boiler": 20.87,
-    "heater": 29.81,
+    "heater": 31.15,
     "disinfecting": 1.9
   },
   "cost_gas_per_year": {
     "boiler": 195.12,
-    "heater": 414.54,
+    "heater": 415.88,
     "disinfecting": 22.77
   },
-  "dattime": "Wed Mar 23 18:10:44 2022",
-  "datperiode": "2022-03-23",
+  "dattime": "Thu Mar 24 09:56:43 2022",
+  "datperiode": "2022-03-24",
   "datmonth": "2022-03",
   "datyear": "2022",
-  "dattimestamp": "2022-03-23T18:10:44",
-  "datlastupdate": "2022-03-23 18:10:44.693098",
+  "dattimestamp": "2022-03-24T09:56:43",
+  "datlastupdate": "2022-03-24 09:56:43.671081",
   "version": "1.0.3",
-  "hostname": "nuc2020",
+  "hostname": "MACBOOK-PRO-PETER-WLAN.siebler.home",
   "unit_of_measurement": "m³",
   "state_class": "measurement",
   "device_class": "gas",

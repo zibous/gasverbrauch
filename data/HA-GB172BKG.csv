@@ -1,0 +1,43 @@
+name,field,type,unit,class,icon,enabled,device_class
+Heizkreis,heater_active,binary_sensor,,,mdi:fire-circle,1,
+Warmwasserboiler,boiler_active,binary_sensor,,,mdi:water-boiler,1,
+Boiler desinfizieren,boiler_disinfecting,binary_sensor,,,mdi:information-outline,1,
+Boiler desinfizieren Start,boiler_disinfecting_start,sensor,,,mdi:information-outline,1,
+Boiler desinfizieren Ende,boiler_disinfecting_end,sensor,,,mdi:information-outline,1,
+Boiler desinfizieren Zeit,boiler_disinfecting_sec,sensor,s,measurement,mdi:counter,1,
+Betriebsdauer,runnig_total_sec,sensor,s,measurement,mdi:counter,1,
+Betriebsdauer Heizkreis,runnig_heater_sec,sensor,s,measurement,mdi:timer-settings-outline,1,
+Betriebsdauer Boiler,runnig_boiler_sec,sensor,s,measurement,mdi:timer-settings-outline,1,
+Heizkreis Anteil,runnig_heater_ratio,sensor,%,measurement,mdi:relative-scale,1,power_factor
+Boiler Anteil,runnig_boiler_ratio,sensor,%,measurement,mdi:relative-scale,1,power_factor
+Gasverbrauch gesamt,gas_total,sensor,m³,measurement,mdi:counter,1,gas
+Gasverbrauch Heizkreis gesamt,gas_heater,sensor,m³,measurement,mdi:counter,1,gas
+Gasverbrauch Boiler gesamt,gas_boiler,sensor,m³,measurement,mdi:counter,1,gas
+Gasverbrauch Boiler aktuell,gasverbrauch_boiler,sensor,m³,measurement,mdi:counter,1,gas
+Gasverbrauch Heizkreis aktuell,gasverbrauch_heater,sensor,m³,measurement,mdi:counter,1,gas
+Messzeit,elapsed_time,sensor,s,measurement,mdi:counter,1,
+Gas Boiler pro Stunde,gas_per_hour.boiler,sensor,m³,measurement,mdi:counter,1,gas
+Gas Heizkreis pro Stunde,gas_per_hour.heater,sensor,m³,measurement,mdi:counter,1,gas
+Gas Boilerdesinfizierung pro Stunde,gas_per_hour.disinfecting,sensor,m³,measurement,mdi:counter,1,gas
+Gas Boiler pro Tag,gas_per_day.boiler,sensor,m³,measurement,mdi:counter,1,gas
+Gas Heizkreis pro Tag,gas_per_day.heater,sensor,m³,measurement,mdi:counter,1,gas
+Gas Boilerdesinfizierung pro Tag,gas_per_day.disinfecting,sensor,m³,measurement,mdi:counter,1,gas
+Gas Boiler pro Monat,gas_per_month.boiler,sensor,m³,measurement,mdi:counter,1,gas
+Gas Heizkreis pro Monat,gas_per_month.heater,sensor,m³,measurement,mdi:counter,1,gas
+Gas Boilerdesinfizierung pro Monat,gas_per_month.disinfecting,sensor,m³,measurement,mdi:counter,1,gas
+Gas Boiler pro Jahr,gas_per_year.boiler,sensor,m³,measurement,mdi:counter,1,gas
+Gas Heizkreis pro Jahr,gas_per_year.heater,sensor,m³,measurement,mdi:counter,1,gas
+Gas Boilerdesinfizierung pro Jahr,gas_per_year.disinfecting,sensor,m³,measurement,mdi:counter,1,gas
+Kosten Boiler pro Stunde,cost_gas_per_hour.boiler,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Heizung pro Stunde,cost_gas_per_hour.heater,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Boilerdesinfizierung pro Stunde,cost_gas_per_hour.disinfecting,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Boiler pro Tag,cost_gas_per_day.boiler,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Heizung pro Tag,cost_gas_per_day.heater,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Boilerdesinfizierung pro Tag,cost_gas_per_day.disinfecting,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Boiler pro Monat,cost_gas_per_month.boiler,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Heizung pro Monat,cost_gas_per_month.heater,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Boilerdesinfizierung pro Monat,cost_gas_per_month.disinfecting,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Boiler pro Jahr,cost_gas_per_year.boiler,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Heizung pro Jahr,cost_gas_per_year.heater,sensor,€,measurement,mdi:counter,1,monetary
+Kosten Boilerdesinfizierung pro Jahr,cost_gas_per_year.disinfecting,sensor,€,measurement,mdi:counter,1,monetary
+Gasverbrauch aktualisiert,dattimestamp,sensor,,,mdi:timer-outline,1,

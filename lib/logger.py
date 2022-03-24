@@ -4,7 +4,7 @@ import logging
 import sys
 import traceback
 from time import gmtime, strftime
-from conf import *
+# from conf import *
 
 class CustomFormatter(logging.Formatter):
     """Logging colored formatter, adapted from https://stackoverflow.com/a/56944256/3638629"""
