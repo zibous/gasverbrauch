@@ -49,6 +49,7 @@ root@devhost:  python3 app.py  ## or ./app.py
 ```
 
 ## config settings
+Strictly required: All variables must contain valid values:
 
 ### Application settings
 | variable               | remarks                                 |
@@ -68,6 +69,8 @@ root@devhost:  python3 app.py  ## or ./app.py
 | SMARTMETER_NAME        | Name of the smartmeter                  |
 
 ### Date & Time settings
+Strictly required: All variables must contain valid values:
+
 |variable                              |remarks                        |
 |--------------------------------------|-------------------------------|
 |DATEFORMAT_CURRENT                    |2022-03-24 13:47:45.341981     |
@@ -84,6 +87,8 @@ root@devhost:  python3 app.py  ## or ./app.py
 |TIME_FORMAT                           |13:47:44                       |
 
 ### Data provider ESM-ESP Heater & ESP Gasmeter
+Strictly required: All variables must contain valid values:
+
 | variable                | remarks                                            |
 | ----------------------- | -------------------------------------------------- |
 | EMS_API_URL             | ESP32 GASMETER API URL                             |
@@ -95,6 +100,8 @@ root@devhost:  python3 app.py  ## or ./app.py
 | ESP32_GASMETER_PORT     | ESPHome ESP32 Device Port (default: 6053)          |
 
 ### Homeassistant auto discovery (optional)
+To turn this off, set `set GASMETER_HA_DISCOVERY_TOPIC = None` otherwise all variables must contain valid values.
+
 | variable                    | remarks                                                 |
 | --------------------------- | ------------------------------------------------------- |
 | GASMETER_HA_DISCOVERY_ID    | ESP-Gasmeter                                            |
@@ -105,6 +112,8 @@ root@devhost:  python3 app.py  ## or ./app.py
 | GASMETER_HA_SECTION         | Topic section name for mqtt:  /gasdata/sensorname       |
 
 ### Gotify Messages (optional)
+To turn this off, set `set GOTIFY_SERVICE = None` otherwise all variables must contain valid values.
+
 | variable        | remarks                         |
 | --------------- | ------------------------------- |
 | EMS_ERROR_TEXT  | GOTIFY Title for error messages |
@@ -114,6 +123,8 @@ root@devhost:  python3 app.py  ## or ./app.py
 | GOTIFY_TOKEN    | GOTIFY Token                    |
 
 ### Influxdb (optional)
+To turn this off, set `set INFLUXDB_HOST = None` otherwise all variables must contain valid values.
+
 | variable             | remarks                                                    |
 | -------------------- | ---------------------------------------------------------- |
 | INFLUXDB_HOST        | Host or IP Address  Influxdb version 1.8.4  (influx.local) |
@@ -125,12 +136,17 @@ root@devhost:  python3 app.py  ## or ./app.py
 | INFLUXDB_USER        | Influxdb version 1.8.4 Username                            |
 
 ### Logging
+If `LOG_DIR=None` no logfiles will be uses, only messages based on the LOG_LEVEL
+will be send to the console or syslog.
+
 |variable                              |remarks                        |
 |--------------------------------------|-------------------------------|
 |LOG_DIR                               |disabled LOG_DIR = None        |
 |LOG_LEVEL                             |Loglevel settings              |
 
 ### Mqtt Brocker (optional)
+To turn this off, set `set MQTTHOST = None` otherwise all variables must contain valid values.
+
 | variable             | remarks                             |
 | -------------------- | ----------------------------------- |
 | MQTTAUTH             | Mqtt Brocker User and Password      |
@@ -144,6 +160,8 @@ root@devhost:  python3 app.py  ## or ./app.py
 
 
 ### Cost calculation (optinal)
+To turn this off, set `set COST_CALCULATION_ON = False` otherwise all variables must contain valid values.
+
 |variable                              |remarks                        |
 |--------------------------------------|-------------------------------|
 |COST_CALCULATION_ON                   |Optional: False = not used     |
