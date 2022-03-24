@@ -6,9 +6,8 @@ A Python application that reads the data from EMS-ESP and the gas meter, recalcu
 ![EMS-ESP32 ](docs/heizung.png)
 
 ## Used devices
-[ESM-ESP32 Gateway](https://github.com/emsesp/EMS-ESP32)
-[HA-Gasmeter](https://github.com/zibous/ha-gasmeter)
-
+[ESM-ESP32 Gateway](https://github.com/emsesp/EMS-ESP32)<br>
+[HA-Gasmeter](https://github.com/zibous/ha-gasmeter)<br>
 
 ## Results `Gasverbrauch Service Application`
 - MQTT Message
