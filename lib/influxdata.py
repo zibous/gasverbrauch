@@ -23,6 +23,7 @@ class InfuxdbCient:
     version = "1.0.1"
 
     def __init__(self, database: str = INFLUXDB_NAME, host: str = INFLUXDB_HOST, port: int = INFLUXDB_PORT, user: str = INFLUXDB_USER, passwd: str = INFLUXDB_PASSWORD):
+        """Influxdb version 1.8.4 Dataservice"""
         self.database = database
         self.host = host
         self.port = port

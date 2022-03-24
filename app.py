@@ -39,6 +39,8 @@ try:
     from lib import gotifymessage as gotify
     from lib import calculator
     from lib import discoveryitems
+    import paho.mqtt.publish as publish
+
     from conf import *
 except Exception as e:
     print('Configuration error {}, check config.py'.format(e))
@@ -48,9 +50,22 @@ except Exception as e:
 log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
 
 
+def publishMqtt(topic: str = '', payload: str = '', retain: bool = False) -> bool:
+    """publish the mqtt payload to the defined brocker"""
+    try:
+        publish.single(topic, payload=payload, qos=0, retain=retain,
+                       hostname=MQTTHOST, port=MQTTPORT,
+                       client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
+        return True
+    except BaseException as e:
+        log.error(f"Error app.pbulishMqtt, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+        return False
+
 # ---------------------------------------------------
 # main application
 # ---------------------------------------------------
+
+
 async def main():
     """main application"""
     log.debug("Start main {}".format(APPS_NAME))
@@ -69,9 +84,9 @@ async def main():
     if MQTTHOST:
         # mqtt brocker defined, send LWT Topic
         if MQTT_LWT_TOPIC:
-            publish.single(MQTT_LWT_TOPIC, payload="Online", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
-        if MQTT_CECHK_LWT_TOPIC:
-            publish.single(MQTT_CECHK_LWT_TOPIC, payload="Online", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
+            publishMqtt(topic=MQTT_LWT_TOPIC, payload="Online", retain=True)
+        if MQTT_CHECK_LWT_TOPIC:
+            publishMqtt(topic=MQTT_CHECK_LWT_TOPIC, payload="Online", retain=True)
 
     """Connect to an ESPHome device and wait for state changes."""
     cli = aioesphomeapi.APIClient(ESP32_GASMETER_API, ESP32_GASMETER_PORT, ESP32_GASMETER_PASSWORD)
@@ -102,12 +117,13 @@ try:
 except KeyboardInterrupt:
     pass
 finally:
+     # send last will if MQTT is definded
     if MQTTHOST:
-        # send last will if MQTT is definded
+        # mqtt brocker defined, send LWT Topic
         if MQTT_LWT_TOPIC:
-            publish.single(MQTT_LWT_TOPIC, payload="Offline", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
-        if MQTT_CECHK_LWT_TOPIC:    
-            publish.single(MQTT_CECHK_LWT_TOPIC, payload="Offline", qos=0, retain=True, hostname=MQTTHOST, port=MQTTPORT, client_id=MQTTCLIENT, keepalive=60, auth=MQTTAUTH)
+            publishMqtt(topic=MQTT_LWT_TOPIC, payload="Offline", retain=True)
+        if MQTT_CHECK_LWT_TOPIC:
+            publishMqtt(topic=MQTT_CHECK_LWT_TOPIC, payload="Offline", retain=True)
     # send the stop message to gotify
     gotify.sendMessage(APPS_NAME, "stoped: {} on {}".format(DATA_HOSTNAME, getTimestamp()))
     loop.close()

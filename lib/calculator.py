@@ -14,9 +14,11 @@ try:
     from datetime import datetime
     import paho.mqtt.publish as publish
 
-    from lib import gotifymessage as gotify
-    from lib import logger
     from conf import *
+    from lib import logger
+    from lib import gotifymessage as gotify
+    from lib import influxdata
+
 
 except Exception as e:
     print('Configuration error {}, check config.py'.format(e))
@@ -37,6 +39,8 @@ class Calculator():
         self.prev_data = {}
         self.curr_data = {}
         self.ready = False
+        self.runcount = 0
+
 
     def __checkTimeOrDate__(self, format: str = DATEFORMAT_HOUR, checkInitDate: bool = False) -> bool:
         """ checks if the current date or time has changed"""
@@ -173,9 +177,7 @@ class Calculator():
     def __loadData__(self) -> bool:
         """loads the previous data form the defined json file"""
         try:
-
             fileName = self.emsheaterFilename
-
             if not os.path.isfile(fileName):
                 fileName = fileName.replace(".json", "_default.json")
                 log.debug("{}: No previous datafile:{}, try to use the default {}".format(sys._getframe().f_code.co_name, self.emsheaterFilename, fileName))
@@ -301,6 +303,41 @@ class Calculator():
             log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
             return False
 
+    def __publishToInfluxdb__(self):
+        """Publish the defined fields to the influx db"""
+        try:
+            if INFLUXDB_HOST and INFLUXDB_GASMETER_MEASUREMENT:
+                log.info("{}: Publish Data to influxDB".format(sys._getframe().f_code.co_name))
+                i = influxdata.InfuxdbCient()
+                # all fields for the influx database
+                row = dict()
+                row['gas_display'] = ESP32_API_DATA['wug_gaszähler_anzeige'],
+                row['gas_overall'] = ESP32_API_DATA['wug_gasverbrauch_gesamt'],
+                row['gas_total'] = self.curr_data['gas_total']
+                row['gas_heater'] = self.curr_data['gas_heater']
+                row['gas_boiler'] = self.curr_data['gas_boiler']
+                row['gas_boiler'] = self.curr_data['gas_boiler']
+                row['gasverbrauch'] = self.curr_data['gasverbrauch']
+                row['gasverbrauch_boiler'] = self.curr_data['gasverbrauch_boiler']
+                row['gasverbrauch_heater'] = self.curr_data['gasverbrauch_heater']
+                row['runnig_total_sec'] = self.curr_data['runnig_total_sec']
+                row['runnig_heater_ratio'] = self.curr_data['runnig_heater_ratio']
+                row['runnig_boiler_ratio'] = self.curr_data['runnig_boiler_ratio']
+                for key in DATE_LIST:
+                    row["{}_boiler".format(key)] = self.curr_data[key]['boiler']
+                    row["{}_heater".format(key)] = self.curr_data[key]['heater']
+                    row["{}_disinfecting".format(key)] = self.curr_data[key]['disinfecting']
+                    field = "{}{}".format("cost_", key)
+                    row["cost_{}_boiler".format(key)] = self.curr_data[field]['boiler']
+                    row["cost_{}_heater".format(key)] = self.curr_data[field]['heater']
+                    row["cost_{}_disinfecting".format(key)] = self.curr_data[field]['disinfecting']
+                i.post(row, INFLUXDB_GASMETER_MEASUREMENT)
+                return True
+        except BaseException as e:
+            log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+
+        return False
+
     def __readData__(self, name, value) -> bool:
         """Reads the data form the EMS-ESP and ESP Gasmeter device """
         try:
@@ -382,9 +419,13 @@ class Calculator():
                         # publish and save the data
                         self.__publishData__()
                         self.__saveData__()
+                        # pubish data every hour to the influxdb
+                        if(self.__checkTimeOrDate__(DATEFORMAT_HOUR, True)):
+                            self.__publishToInfluxdb__()
                         # save this for each month
                         self.__saveReportData__()
                         # all well done
+                        self.runcount += 1
                         return self.ready
                     else:
                         log.debug("{}:EMS API - No data found !".format(sys._getframe().f_code.co_name))
