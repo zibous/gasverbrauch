@@ -3,8 +3,8 @@
         "field": "heater_active",
         "type": "binary_sensor",
         "unit": "",
-        "class": "",
-        "icon": "mdi:fire-circle",
+        "class": "measurement",
+        "icon":"",
         "enabled": 1
     },
     {
@@ -12,8 +12,8 @@
         "field": "boiler_active",
         "type": "binary_sensor",
         "unit": "",
-        "class": "",
-        "icon": "mdi:water-boiler",
+        "class": "measurement",
+        "icon":"",
         "enabled": 1
     },
     {
@@ -21,8 +21,8 @@
         "field": "boiler_disinfecting",
         "type": "binary_sensor",
         "unit": "",
-        "class": "",
-        "icon": "mdi:information-outline",
+        "class": "measurement",
+        "icon":"",
         "enabled": 1
     },
     {

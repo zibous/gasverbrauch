@@ -311,8 +311,10 @@ class Calculator():
                 i = influxdata.InfuxdbCient()
                 # all fields for the influx database
                 row = dict()
-                row['gas_display'] = ESP32_API_DATA['wug_gaszähler_anzeige'],
-                row['gas_overall'] = ESP32_API_DATA['wug_gasverbrauch_gesamt'],
+                if ESP32_API_DATA and "wug_gaszähler_anzeige" in ESP32_API_DATA:
+                    row['gas_display'] = ESP32_API_DATA['wug_gaszähler_anzeige']
+                if ESP32_API_DATA and "wug_gasverbrauch_gesamt" in ESP32_API_DATA:
+                    row['gas_overall'] = ESP32_API_DATA['wug_gasverbrauch_gesamt']
                 row['gas_total'] = self.curr_data['gas_total']
                 row['gas_heater'] = self.curr_data['gas_heater']
                 row['gas_boiler'] = self.curr_data['gas_boiler']
@@ -331,8 +333,14 @@ class Calculator():
                     row["cost_{}_boiler".format(key)] = self.curr_data[field]['boiler']
                     row["cost_{}_heater".format(key)] = self.curr_data[field]['heater']
                     row["cost_{}_disinfecting".format(key)] = self.curr_data[field]['disinfecting']
-                i.post(row, INFLUXDB_GASMETER_MEASUREMENT)
-                return True
+                if row:
+                    # log.debug("{}: Publish {} to influxDB".format(sys._getframe().f_code.co_name,row))
+                    i.post(row, INFLUXDB_GASMETER_MEASUREMENT)
+                    return True
+                else:
+                    log.warning("{}: Publish data to influxDB failed, no data found!".format(sys._getframe().f_code.co_name))
+                    return False
+
         except BaseException as e:
             log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
 

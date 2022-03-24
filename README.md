@@ -2,9 +2,15 @@
 
 A Python application that reads the data from EMS-ESP and the gas meter, recalculates data. Transmits the results as an MQTT message for the Homeassisant application.
 
-![heizung](docs/heizung.png)
 
-## Results
+![EMS-ESP32 ](docs/heizung.png)
+
+## Used devices
+[ESM-ESP32 Gateway](https://github.com/emsesp/EMS-ESP32)
+[HA-Gasmeter](https://github.com/zibous/ha-gasmeter)
+
+
+## Results `Gasverbrauch Service Application`
 - MQTT Message
   - Boiler (gas consumption / costs per hour, day, month, year )
   - Heating (gas consumption / costs per hour, day, month, year )
