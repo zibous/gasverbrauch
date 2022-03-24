@@ -200,6 +200,8 @@ Attention: Daemon mode must be enabled in the configuration file (default) - Sys
     root@devhost: sudo systemctl start gasverbrauch.service
     root@devhost: sudo systemctl status gasverbrauch.service
     root@devhost: sudo systemctl enable gasverbrauch.service
+    ## or
+    root@devhost: bash install_service.sh
 ```
 
 ## Fields
@@ -253,10 +255,6 @@ Attention: Daemon mode must be enabled in the configuration file (default) - Sys
 ## Developer Helper - Create requirements.txt
 ```bash
   root@devhost: bash make_req.sh
-```
-
-```bash
-  root@devhost: bash install_service.sh
 ```
 
 ## Credits
