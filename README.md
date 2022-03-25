@@ -6,8 +6,8 @@ A Python application that reads the data from EMS-ESP and the gas meter, recalcu
 ![EMS-ESP32 ](docs/heizung.png)
 
 ## Used devices - datasources
-[<img alt="ESM-ESP32 Gateway" width="340px" src="docs/github_ems-esp32.jpg" />](https://github.com/emsesp/EMS-ESP32)
-[<img alt="HA-Gasmeter" width="340px" src="docs/github_ha-gasmeter.jpg" />](https://github.com/zibous/ha-gasmeter) __ [<img alt="HA-Watermeter" width="340px" src="docs/github_hawatermeter.jpg" />](https://github.com/zibous/ha-watermeter)
+[<img alt="ESM-ESP32 Gateway" width="49%" src="docs/github_ems-esp32.jpg" />](https://github.com/emsesp/EMS-ESP32)
+[<img alt="HA-Gasmeter" width="49%" src="docs/github_ha-gasmeter.jpg" />](https://github.com/zibous/ha-gasmeter) [<img alt="HA-Watermeter" width="49%" src="docs/github_hawatermeter.jpg" />](https://github.com/zibous/ha-watermeter)
 
 
 
