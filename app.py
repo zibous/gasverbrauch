@@ -96,16 +96,22 @@ async def main():
     sensor_by_keys = dict((sensor.key, sensor.name) for sensor in sensors)
 
     def cb(state):
-        """callback to get the sensor values and if fieldname match - start the caclulation"""
+        """callback function to get the sensor values and if fieldname match - start the caclulation"""
         if isinstance(state, aioesphomeapi.SensorState):
             fieldName = sensor_by_keys[state.key]
             if(fieldName == ESP32_GASMETER_FIELDS):
                 # execute the calculation
+                log.debug("{}-state : Start new calculation with key {}".format(APPS_NAME, fieldName))
+                # call calculater with the file gascounter_total and the gasmeter total value
                 _calculator.__readData__(name=fieldName, value=state.state)
+                log.debug("{}-state: End calculation".format(APPS_NAME))
             else:
                 # store the others to the global dictionary
                 ESP32_API_DATA[fieldName.replace(" ", "_").lower()] = state.state
 
+            log.debug("{}-state: aioesphomeapi Field {}".format(APPS_NAME,fieldName))
+
+    ## subscribe the callback function
     await cli.subscribe_states(cb)
 
 # start main application

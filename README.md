@@ -5,9 +5,11 @@ A Python application that reads the data from EMS-ESP and the gas meter, recalcu
 
 ![EMS-ESP32 ](docs/heizung.png)
 
-## Used devices
-[ESM-ESP32 Gateway](https://github.com/emsesp/EMS-ESP32)<br>
-[HA-Gasmeter](https://github.com/zibous/ha-gasmeter)<br>
+## Used devices - datasources
+[<img alt="ESM-ESP32 Gateway" width="340px" src="docs/github_ems-esp32.jpg" />](https://github.com/emsesp/EMS-ESP32)
+[<img alt="HA-Gasmeter" width="340px" src="docs/github_ha-gasmeter.jpg" />](https://github.com/zibous/ha-gasmeter) __ [<img alt="HA-Watermeter" width="340px" src="docs/github_hawatermeter.jpg" />](https://github.com/zibous/ha-gasmeter)
+
+
 
 ## Results `Gasverbrauch Service Application`
 - MQTT Message
@@ -48,9 +50,24 @@ root@devhost:  python3 app.py  ## or ./app.py
 ```
 
 ## config settings
-Strictly required: All variables must contain valid values:
+<style>
+table th:first-of-type {
+    width: 10%;
+}
+table th:nth-of-type(2) {
+    width: 10%;
+}
+table th:nth-of-type(3) {
+    width: 50%;
+}
+table th:nth-of-type(4) {
+    width: 30%;
+}
+</style>
 
 ### Application settings
+Strictly required: All variables must contain valid values:
+
 | variable               | remarks                                 |
 | ---------------------- | --------------------------------------- |
 | APPS_DESCRIPTION       | Application short description           |
@@ -69,7 +86,6 @@ Strictly required: All variables must contain valid values:
 
 ### Date & Time settings
 Strictly required: All variables must contain valid values:
-
 |variable                              |remarks                        |
 |--------------------------------------|-------------------------------|
 |DATEFORMAT_CURRENT                    |2022-03-24 13:47:45.341981     |
@@ -87,7 +103,6 @@ Strictly required: All variables must contain valid values:
 
 ### Data provider ESM-ESP Heater & ESP Gasmeter
 Strictly required: All variables must contain valid values:
-
 | variable                | remarks                                            |
 | ----------------------- | -------------------------------------------------- |
 | EMS_API_URL             | ESP32 GASMETER API URL                             |
@@ -100,7 +115,6 @@ Strictly required: All variables must contain valid values:
 
 ### Homeassistant auto discovery (optional)
 To turn this off, set `set GASMETER_HA_DISCOVERY_TOPIC = None` otherwise all variables must contain valid values.
-
 | variable                    | remarks                                                 |
 | --------------------------- | ------------------------------------------------------- |
 | GASMETER_HA_DISCOVERY_ID    | ESP-Gasmeter                                            |
@@ -112,7 +126,6 @@ To turn this off, set `set GASMETER_HA_DISCOVERY_TOPIC = None` otherwise all var
 
 ### Gotify Messages (optional)
 To turn this off, set `set GOTIFY_SERVICE = None` otherwise all variables must contain valid values.
-
 | variable        | remarks                         |
 | --------------- | ------------------------------- |
 | EMS_ERROR_TEXT  | GOTIFY Title for error messages |
@@ -123,7 +136,6 @@ To turn this off, set `set GOTIFY_SERVICE = None` otherwise all variables must c
 
 ### Influxdb (optional)
 To turn this off, set `set INFLUXDB_HOST = None` otherwise all variables must contain valid values.
-
 | variable             | remarks                                                    |
 | -------------------- | ---------------------------------------------------------- |
 | INFLUXDB_HOST        | Host or IP Address  Influxdb version 1.8.4  (influx.local) |
@@ -137,7 +149,6 @@ To turn this off, set `set INFLUXDB_HOST = None` otherwise all variables must co
 ### Logging
 If `LOG_DIR=None` no logfiles will be uses, only messages based on the LOG_LEVEL
 will be send to the console or syslog.
-
 |variable                              |remarks                        |
 |--------------------------------------|-------------------------------|
 |LOG_DIR                               |disabled LOG_DIR = None        |
@@ -145,7 +156,6 @@ will be send to the console or syslog.
 
 ### Mqtt Brocker (optional)
 To turn this off, set `set MQTTHOST = None` otherwise all variables must contain valid values.
-
 | variable             | remarks                             |
 | -------------------- | ----------------------------------- |
 | MQTTAUTH             | Mqtt Brocker User and Password      |
@@ -160,7 +170,6 @@ To turn this off, set `set MQTTHOST = None` otherwise all variables must contain
 
 ### Cost calculation (optinal)
 To turn this off, set `set COST_CALCULATION_ON = False` otherwise all variables must contain valid values.
-
 |variable                              |remarks                        |
 |--------------------------------------|-------------------------------|
 |COST_CALCULATION_ON                   |Optional: False = not used     |
@@ -193,7 +202,7 @@ You most probably want to execute the program continuously in the background. Th
 Attention: Daemon mode must be enabled in the configuration file (default) - Systemd service - on systemd powered systems the recommended option
 
 ```bash
-    root@devhost: sudo cp /opt/gasverbrauch/service.template \ 
+    root@devhost: sudo cp /opt/gasverbrauch/service.template \
                          /etc/systemd/system/gasverbrauch.service
     root@devhost: sudo systemctl daemon-reload
     root@devhost: sudo systemctl start gasverbrauch.service
@@ -255,6 +264,7 @@ Attention: Daemon mode must be enabled in the configuration file (default) - Sys
 ```bash
   root@devhost: bash make_req.sh
 ```
+
 
 ## Credits
 marc1de:   https://github.com/marc1de

@@ -11,5 +11,5 @@
       "ESP-Gasmeter"
     ]
   },
-  "icon": "mdi:information-outline"
+  "state_class": "measurement"
 }

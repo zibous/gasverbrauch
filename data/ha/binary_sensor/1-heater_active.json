@@ -17,5 +17,5 @@
     "sw": "1.0.3",
     "via_device": "esp-gasmeter"
   },
-  "icon": "mdi:fire-circle"
+  "state_class": "measurement"
 }

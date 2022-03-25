@@ -11,5 +11,5 @@
       "ESP-Gasmeter"
     ]
   },
-  "icon": "mdi:water-boiler"
+  "state_class": "measurement"
 }

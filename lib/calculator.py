@@ -31,16 +31,30 @@ log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
 class Calculator():
     """Calculater class calcs all value for the current gasmeter values based on EMS-ESP and Gasmeter ESP Device"""
 
-    version = "1.1.0"
+    version = "1.2.0"
 
     def __init__(self):
+        """constuctor caclculator"""
         log.debug('✔︎ Init {}, version {}'.format(__name__, self.version))
-        self.emsheaterFilename = "{}{}.json".format(DATADIR,SMARTMETER_ID)
+        self.emsheaterFilename = "{}{}.json".format(DATADIR, SMARTMETER_ID)
         self.prev_data = {}
         self.curr_data = {}
         self.ready = False
         self.runcount = 0
+        self.lastRun = datetime.now()
 
+    def __getElapsedTime__(self, timestamp: datetime = datetime.now()) -> int:
+        """get the elapsed time in minutes:
+           result = now - timestamp
+           example: self.__getElapsedTime__(self.lastRun)
+        """
+        try:
+            diff = datetime.now() - timestamp
+            return int(diff.total_seconds()/60)
+
+        except BaseException as e:
+            log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+            return -1
 
     def __checkTimeOrDate__(self, format: str = DATEFORMAT_HOUR, checkInitDate: bool = False) -> bool:
         """ checks if the current date or time has changed"""
@@ -66,10 +80,9 @@ class Calculator():
         """Checks if the timeslot hour, day, month and year has changed and calculates the gas consumption for the period"""
         try:
             # get the timestamps
-            lastDate = datetime.strptime(self.prev_data['dattimestamp'], DATEFORMAT_TIMESTAMP)
-            newDate = datetime.now()
-            diff = newDate - lastDate
-            self.curr_data['elapsed_time'] = int(diff.total_seconds())
+            timestamp = datetime.strptime(self.prev_data['dattimestamp'], DATEFORMAT_TIMESTAMP)
+            self.curr_data['elapsed_time'] = self.__getElapsedTime__(timestamp) * 60
+
             # all periodes
             for key in DATE_LIST:
                 format = DATE_LIST[key]
@@ -81,9 +94,9 @@ class Calculator():
                     log.debug("{}: Init values for {}, new period found !".format(sys._getframe().f_code.co_name, key))
 
                     # init values if date or time has changed
-                    self.curr_data[key]['boiler'] = round(float(0), 3)
-                    self.curr_data[key]['heater'] = round(float(0), 3)
-                    self.curr_data[key]['disinfecting'] = round(float(0), 3)
+                    self.curr_data[key]['boiler'] = float(0.00)
+                    self.curr_data[key]['heater'] = float(0.00)
+                    self.curr_data[key]['disinfecting'] = float(0.00)
 
                     # update values based on the mode
                     if self.curr_data['gasverbrauch_boiler']:
@@ -96,7 +109,6 @@ class Calculator():
                         self.curr_data[key]['disinfecting'] = self.curr_data['gasverbrauch_boiler']
                 else:
                     # add new values
-                    log.debug("{}: update values for {}".format(sys._getframe().f_code.co_name, key))
                     if not (key in self.curr_data):
                         self.curr_data[key] = {}
                     self.curr_data[key]['boiler'] = round(float(self.prev_data[key]['boiler']) + float(self.curr_data['gasverbrauch_boiler']), 3)
@@ -127,7 +139,7 @@ class Calculator():
                 for key in DATE_LIST:
                     field = "{}{}".format("cost_", key)
                     if not (field in self.curr_data):
-                       self.curr_data[field] = {}
+                        self.curr_data[field] = {}
                     self.curr_data[field]['boiler'] = calcGasCost(self.curr_data[key]['boiler'])
                     self.curr_data[field]['heater'] = calcGasCost(self.curr_data[key]['heater'])
                     self.curr_data[field]['disinfecting'] = calcGasCost(self.curr_data[key]['disinfecting'])
@@ -144,8 +156,8 @@ class Calculator():
                 log.debug("{}: Mode: {}".format(sys._getframe().f_code.co_name, EMS_MODES['idle']))
                 # init the defaults
                 self.curr_data['mode'] = EMS_MODES['idle']
-                self.curr_data['gasverbrauch_boiler'] = round(float(0), 3)
-                self.curr_data['gasverbrauch_heater'] = round(float(0), 3)
+                self.curr_data['gasverbrauch_boiler'] = float(0.00)
+                self.curr_data['gasverbrauch_heater'] = float(0.00)
                 # check boiler or heater mode
                 if(self.curr_data['boiler_active'] == 'on'):
                     self.curr_data['mode'] = EMS_MODES['water']
@@ -154,6 +166,7 @@ class Calculator():
                         self.curr_data['mode'] = EMS_MODES['heat']
                 # get the gas consumption
                 gas_delta = float((self.curr_data['gas_total'] - self.prev_data['gas_total']))
+                # calculate the current gas consumption
                 self.curr_data['gasverbrauch'] = round(gas_delta, 3)
                 if(self.curr_data['mode'] == EMS_MODES['water']):
                     self.curr_data['gasverbrauch_boiler'] = self.curr_data['gasverbrauch']
@@ -191,12 +204,12 @@ class Calculator():
             else:
                 log.debug("{}: Fallback - Init previous Data:{}".format(sys._getframe().f_code.co_name, fileName))
                 self.prev_data = {}
-                self.prev_data['gas_total'] = round(float(0), 3)
+                self.prev_data['gas_total'] = float(0.00)
                 for key in DATE_LIST:
                     self.prev_data[key] = {}
-                    self.prev_data[key]['boiler'] = round(float(0), 3)
-                    self.prev_data[key]['heater'] = round(float(0), 3)
-                    self.prev_data[key]['disinfecting'] = round(float(0), 3)
+                    self.prev_data[key]['boiler'] = float(0.00)
+                    self.prev_data[key]['heater'] = float(0.00)
+                    self.prev_data[key]['disinfecting'] = float(0.00)
                 self.prev_data['boiler_disinfecting'] = "off"
                 self.prev_data['boiler_disinfecting_sec'] = 0
                 self.curr_data['boiler_disinfecting_start'] = DATE_DEFAULT_MIN
@@ -334,7 +347,6 @@ class Calculator():
                     row["cost_{}_heater".format(key)] = self.curr_data[field]['heater']
                     row["cost_{}_disinfecting".format(key)] = self.curr_data[field]['disinfecting']
                 if row:
-                    # log.debug("{}: Publish {} to influxDB".format(sys._getframe().f_code.co_name,row))
                     i.post(row, INFLUXDB_GASMETER_MEASUREMENT)
                     return True
                 else:
@@ -352,6 +364,7 @@ class Calculator():
             if(name == 'WUG Gasverbrauch gesamt'):
 
                 log.debug("{}: Read Data started".format(sys._getframe().f_code.co_name))
+
                 # calc the value from the gasmeter
                 self.gasvalue = value
 
@@ -376,17 +389,21 @@ class Calculator():
                         now = datetime.now()
                         self.curr_data['device'] = SMARTMETER_NAME
                         self.curr_data['id'] = SMARTMETER_ID
+
                         self.curr_data['heater_active'] = data['heatingactive']
                         self.curr_data['boiler_active'] = data['ww3wayvalve']
                         self.curr_data['tapwater_active'] = data['tapwateractive']
+
                         self.curr_data['runnig_total_sec'] = (data['heatworkmin']) * 60 + (data['wwworkm'] * 60)
                         self.curr_data['runnig_heater_sec'] = data['heatworkmin'] * 60
                         self.curr_data['runnig_boiler_sec'] = data['wwworkm'] * 60
                         self.curr_data['runnig_heater_ratio'] = round((data['heatworkmin'] * 60) / self.curr_data['runnig_total_sec'], 2)
                         self.curr_data['runnig_boiler_ratio'] = round((data['wwworkm'] * 60) / self.curr_data['runnig_total_sec'], 2)
+
                         self.curr_data['servicecodenumber'] = data['servicecodenumber']
                         self.curr_data['boiler_disinfecting'] = data['wwdisinfecting']
                         self.curr_data['boiler_disinfecting_sec'] = self.prev_data['boiler_disinfecting_sec']
+
                         if self.curr_data['boiler_disinfecting'] == "on":
                             # boiler disinfecting starts now
                             self.curr_data['boiler_disinfecting_start'] = now.strftime(DATEFORMAT_TIMESTAMP)
@@ -418,22 +435,26 @@ class Calculator():
                         self.curr_data['datyear'] = now.strftime(DATEFORMAT_YEAR)
                         self.curr_data['dattimestamp'] = now.strftime(DATEFORMAT_TIMESTAMP)
                         self.curr_data['datlastupdate'] = now.strftime(DATEFORMAT_CURRENT)
+                        self.curr_data['datlastrun'] = self.lastRun.strftime(DATEFORMAT_TIMESTAMP)
                         self.curr_data['version'] = APPS_VERSION
                         self.curr_data['hostname'] = DATA_HOSTNAME
                         self.curr_data['unit_of_measurement'] = 'm³'
                         self.curr_data['state_class'] = 'measurement'
                         self.curr_data['device_class'] = 'gas'
                         self.curr_data['attribution'] = DATA_PROVIDER
+
                         # publish and save the data
                         self.__publishData__()
                         self.__saveData__()
-                        # pubish data every hour to the influxdb
-                        if(self.__checkTimeOrDate__(DATEFORMAT_HOUR, True)):
-                            self.__publishToInfluxdb__()
+
+                        # pubish data every hour to the influxdb every 10 min
+                        # if(self.__getElapsedTime__(self.lastRun) >= 10):
+                        self.__publishToInfluxdb__()
                         # save this for each month
                         self.__saveReportData__()
                         # all well done
                         self.runcount += 1
+                        self.lastRun = datetime.now()
                         return self.ready
                     else:
                         log.debug("{}:EMS API - No data found !".format(sys._getframe().f_code.co_name))
