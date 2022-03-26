@@ -3,17 +3,36 @@
 import logging
 import sys
 import traceback
+import json
 from time import gmtime, strftime
-# from conf import *
+
+
+# class StructuredMessage(object):
+#     """helper method structured message:
+#        @call: logging.info(_('message 1', foo='bar', bar='baz', num=123, fnum=123.456))
+#     """
+#     def __init__(self, message, **kwargs):
+#         self.message = message
+#         self.kwargs = kwargs
+#     def __str__(self):
+#         return '%s >>> %s' % (self.message, json.dumps(self.kwargs))
+
+# _ = StructuredMessage   # optional, to improve readability
+
 
 class CustomFormatter(logging.Formatter):
     """Logging colored formatter, adapted from https://stackoverflow.com/a/56944256/3638629"""
 
     grey = '\x1b[38;21m'
     blue = '\x1b[38;5;39m'
+    light_blue = "\x1b[1;36m"
     yellow = '\x1b[38;5;226m'
     red = '\x1b[38;5;196m'
     bold_red = '\x1b[31;1m'
+    green = "\x1b[1;32m"
+    magenta = "\x1b[1;35m"
+
+
     reset = '\x1b[0m'
 
     def __init__(self, fmt):
@@ -21,7 +40,7 @@ class CustomFormatter(logging.Formatter):
         super().__init__()
         self.fmt = fmt
         self.FORMATS = {
-            logging.DEBUG: self.grey + self.fmt + self.reset,
+            logging.DEBUG: self.magenta + self.fmt + self.reset,
             logging.INFO: self.blue + self.fmt + self.reset,
             logging.WARNING: self.yellow + self.fmt + self.reset,
             logging.ERROR: self.red + self.fmt + self.reset,

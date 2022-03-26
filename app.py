@@ -67,7 +67,10 @@ def publishMqtt(topic: str = '', payload: str = '', retain: bool = False) -> boo
 # ---------------------------------------------------
 class devicedata():
     """ all for the device """
+    status = "offline"
+    field = ""
     last = 0.00
+    modified = 0
     time = datetime.now()
     logInfo = False
     heartBeatTime = 10
@@ -81,13 +84,16 @@ async def heartBeat():
         devicedata.runCounter += 1
         delta = datetime.now() - devicedata.time
         payload = {
-            "status": "connected",
-            "lastvalue": round(devicedata.last, 3),
+            "name": devicedata.field,
+            "state": round(devicedata.last, 3),
+            "status": devicedata.status,
+            "modified": devicedata.modified,
             "counter": devicedata.runCounter,
             "elapsed": int(delta.total_seconds()),
             "timedata": devicedata.time.strftime(DATEFORMAT_TIMESTAMP),
             "timestamp": datetime.now().strftime(DATEFORMAT_TIMESTAMP)
         }
+        # log.debug("heartBeat {}".format(payload))
         publishMqtt(topic=MQTT_CHECK_HEARTBEAT_TOPIC, payload=json.dumps(payload, ensure_ascii=False), retain=False)
 
 # ---------------------------------------------------
@@ -122,12 +128,18 @@ async def main():
     sensors, services = await cli.list_entities_services()
     sensor_by_keys = dict((sensor.key, sensor.name) for sensor in sensors)
 
+    # reset the devicedata on start
     devicedata.time = datetime.now()
+    devicedata.last = 0
+    devicedata.modified = 0
+    devicedata.runCounter = 0
 
     def cb(state):
         """callback function to get the sensor values and if fieldname match - start the caclulation"""
         if isinstance(state, aioesphomeapi.SensorState):
             fieldName = sensor_by_keys[state.key]
+            devicedata.status = "online"
+            devicedata.field = ESP32_GASMETER_FIELDS
             if(fieldName == ESP32_GASMETER_FIELDS):
                 # simple check if the value has changed
                 if(state.state != devicedata.last):
@@ -136,7 +148,9 @@ async def main():
                     # call calculater with the file gascounter_total and the gasmeter total value
                     _calculator.__readData__(name=fieldName, value=state.state)
                     log.debug("{}-state: End calculation".format(APPS_NAME))
+                    # all for the heartbeat data
                     devicedata.last = state.state
+                    devicedata.modified += 1
                     devicedata.time = datetime.now()
             else:
                 # store the others to the global dictionary
@@ -167,6 +181,7 @@ finally:
             publishMqtt(topic=MQTT_CHECK_LWT_TOPIC, payload="Offline", retain=True)
     # send the stop message to gotify
     gotify.sendMessage(APPS_NAME, "stoped: {} on {}".format(DATA_HOSTNAME, getTimestamp()))
+    devicedata.status = "offline"
     loop.close()
 
 # end main application
