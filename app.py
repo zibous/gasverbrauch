@@ -29,6 +29,7 @@ if not (sys.version_info.major == 3 and sys.version_info.minor >= 5):
 try:
     import aioesphomeapi
     import asyncio
+    import json
     import paho.mqtt.publish as publish
 except Exception as e:
     print('Import error {}, check requirements.txt'.format(e))
@@ -62,10 +63,36 @@ def publishMqtt(topic: str = '', payload: str = '', retain: bool = False) -> boo
         return False
 
 # ---------------------------------------------------
+# heartBeat application
+# ---------------------------------------------------
+class devicedata():
+    """ all for the device """
+    last = 0.00
+    time = datetime.now()
+    logInfo = False
+    heartBeatTime = 10
+    runCounter = 0
+
+async def heartBeat():
+    """simple heartbeat"""
+    devicedata.time = datetime.now()
+    while True:
+        await asyncio.sleep(devicedata.heartBeatTime)
+        devicedata.runCounter += 1
+        delta = datetime.now() - devicedata.time
+        payload = {
+            "status": "connected",
+            "lastvalue": round(devicedata.last, 3),
+            "counter": devicedata.runCounter,
+            "elapsed": int(delta.total_seconds()),
+            "timedata": devicedata.time.strftime(DATEFORMAT_TIMESTAMP),
+            "timestamp": datetime.now().strftime(DATEFORMAT_TIMESTAMP)
+        }
+        publishMqtt(topic=MQTT_CHECK_HEARTBEAT_TOPIC, payload=json.dumps(payload, ensure_ascii=False), retain=False)
+
+# ---------------------------------------------------
 # main application
 # ---------------------------------------------------
-
-
 async def main():
     """main application"""
     log.debug("Start main {}".format(APPS_NAME))
@@ -95,23 +122,30 @@ async def main():
     sensors, services = await cli.list_entities_services()
     sensor_by_keys = dict((sensor.key, sensor.name) for sensor in sensors)
 
+    devicedata.time = datetime.now()
+
     def cb(state):
         """callback function to get the sensor values and if fieldname match - start the caclulation"""
         if isinstance(state, aioesphomeapi.SensorState):
             fieldName = sensor_by_keys[state.key]
             if(fieldName == ESP32_GASMETER_FIELDS):
-                # execute the calculation
-                log.debug("{}-state : Start new calculation with key {}".format(APPS_NAME, fieldName))
-                # call calculater with the file gascounter_total and the gasmeter total value
-                _calculator.__readData__(name=fieldName, value=state.state)
-                log.debug("{}-state: End calculation".format(APPS_NAME))
+                # simple check if the value has changed
+                if(state.state != devicedata.last):
+                    # execute the calculation with the changed value
+                    log.debug("{}-state : Start new calculation with key {}".format(APPS_NAME, fieldName))
+                    # call calculater with the file gascounter_total and the gasmeter total value
+                    _calculator.__readData__(name=fieldName, value=state.state)
+                    log.debug("{}-state: End calculation".format(APPS_NAME))
+                    devicedata.last = state.state
+                    devicedata.time = datetime.now()
             else:
                 # store the others to the global dictionary
                 ESP32_API_DATA[fieldName.replace(" ", "_").lower()] = state.state
 
-            log.debug("{}-state: aioesphomeapi Field {}".format(APPS_NAME,fieldName))
+            if devicedata.logInfo:
+                log.debug("{}-state: aioesphomeapi Field {}".format(APPS_NAME, fieldName))
 
-    ## subscribe the callback function
+    # subscribe the callback function
     await cli.subscribe_states(cb)
 
 # start main application
@@ -119,11 +153,12 @@ log.info(" ❖ {} started".format(APPS_DESCRIPTION))
 loop = asyncio.get_event_loop()
 try:
     asyncio.ensure_future(main())
+    asyncio.ensure_future(heartBeat())
     loop.run_forever()
 except KeyboardInterrupt:
     pass
 finally:
-     # send last will if MQTT is definded
+    # send last will if MQTT is definded
     if MQTTHOST:
         # mqtt brocker defined, send LWT Topic
         if MQTT_LWT_TOPIC:
