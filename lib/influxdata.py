@@ -8,6 +8,7 @@ try:
     import json
     from datetime import datetime
     from influxdb import InfluxDBClient
+    
 
     from conf import *
     from lib import logger
@@ -17,6 +18,20 @@ except Exception as e:
 
 log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
 
+# from influxdb import SeriesHelper
+# class EspSeries(SeriesHelper):
+#     """
+        
+#         influxclient = InfluxDBClient('influxhost', 8086, database="dbname")
+#         simple call: EspSeries(sensor=name, value=state)
+#     """
+#     class Meta:
+#         client = influxclient
+#         series_name = 'events.stats.{sensor}'
+#         fields = [ 'value' ]
+#         tags = [ 'sensor' ]
+#         bulk_size = 1
+#         autocommit = True
 
 class InfuxdbCient:
 
