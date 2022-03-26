@@ -88,6 +88,7 @@ MQTT_BASETOPIC = "ems-heizung"
 MQTTTOPIC = "ems-heizung/gas_data"
 MQTT_LWT_TOPIC = "ems-heizung/gas_data/LWT"
 MQTT_CHECK_LWT_TOPIC = "esp-gasmeter/check/LWT"
+MQTT_CHECK_HEARTBEAT_TOPIC = "ems-heizung/gas_data/heartbeat"
 MQTTCLIENT = "gasmeter.service"
 MQTTAUTH = {
     "username": "theMqttMaster",

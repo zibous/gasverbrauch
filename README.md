@@ -49,21 +49,6 @@ root@devhost:  chmod +x app.py
 root@devhost:  python3 app.py  ## or ./app.py
 ```
 
-## config settings
-<style>
-table th:first-of-type {
-    width: 10%;
-}
-table th:nth-of-type(2) {
-    width: 10%;
-}
-table th:nth-of-type(3) {
-    width: 50%;
-}
-table th:nth-of-type(4) {
-    width: 30%;
-}
-</style>
 
 ### Application settings
 Strictly required: All variables must contain valid values:
@@ -156,16 +141,17 @@ will be send to the console or syslog.
 
 ### Mqtt Brocker (optional)
 To turn this off, set `set MQTTHOST = None` otherwise all variables must contain valid values.
-| variable             | remarks                             |
-| -------------------- | ----------------------------------- |
-| MQTTAUTH             | Mqtt Brocker User and Password      |
-| MQTTCLIENT           | Name for this device                |
-| MQTTHOST             | Hostname or IP Address Mqtt Brocker |
-| MQTTPORT             | Port Mqtt Brocker                   |
-| MQTTTOPIC            | Default Topic for the Mqtt Brocker  |
-| MQTT_BASETOPIC       | Base Topic Mqtt Brocker             |
-| MQTT_CHECK_LWT_TOPIC | Last Will (LWT) check topic         |
-| MQTT_LWT_TOPIC       | Last Will (LWT) check topic         |
+| variable                   | remarks                             |
+| -------------------------- | ----------------------------------- |
+| MQTTAUTH                   | Mqtt Brocker User and Password      |
+| MQTTCLIENT                 | Name for this device                |
+| MQTTHOST                   | Hostname or IP Address Mqtt Brocker |
+| MQTTPORT                   | Port Mqtt Brocker                   |
+| MQTTTOPIC                  | Default Topic for the Mqtt Brocker  |
+| MQTT_BASETOPIC             | Base Topic Mqtt Brocker             |
+| MQTT_CHECK_HEARTBEAT_TOPIC | Heartbeat Topic Mqtt Brocker        |
+| MQTT_CHECK_LWT_TOPIC       | Last Will (LWT) check topic         |
+| MQTT_LWT_TOPIC             | Last Will (LWT) check topic         |
 
 
 ### Cost calculation (optinal)
