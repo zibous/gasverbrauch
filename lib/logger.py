@@ -7,6 +7,7 @@ import json
 from time import gmtime, strftime
 
 
+
 # class StructuredMessage(object):
 #     """helper method structured message:
 #        @call: logging.info(_('message 1', foo='bar', bar='baz', num=123, fnum=123.456))
@@ -32,7 +33,6 @@ class CustomFormatter(logging.Formatter):
     green = "\x1b[1;32m"
     magenta = "\x1b[1;35m"
 
-
     reset = '\x1b[0m'
 
     def __init__(self, fmt):
@@ -51,15 +51,16 @@ class CustomFormatter(logging.Formatter):
         """message formatter"""
         log_fmt = self.FORMATS.get(record.levelno)
         date_fmt = "%Y/%m/%d %H:%M:%S"
-        formatter = logging.Formatter(log_fmt,date_fmt)
+        formatter = logging.Formatter(log_fmt, date_fmt)
         formatter.default_msec_format = '%s.%03d'
         return formatter.format(record)
+
 
 class Log(object):
     """Logging wrapper for better output
     """
 
-    def __init__(self, name: str='applogger', level: int = logging.DEBUG, logDir: str = None):
+    def __init__(self, name: str = 'applogger', level: int = logging.DEBUG, logDir: str = None, showLine: bool = False):
         """Constructor application logger
         Args:
             name (str, optional): [description]. Defaults to 'applogger'.
@@ -74,7 +75,10 @@ class Log(object):
             # use log file
             fh = logging.FileHandler(self.logDir + '%s.log' % name, 'w')
             self.logger.addHandler(fh)
-        fmt = "%(asctime)s.%(msecs)03d  - %(levelname)s: %(message)s (%(name)s: Line %(lineno)d)"
+        if(showLine):
+            fmt = "%(asctime)s.%(msecs)03d  - %(levelname)s: %(message)s (%(name)s: Line %(lineno)d)"
+        else:
+            fmt = "%(asctime)s.%(msecs)03d  - %(levelname)s: %(message)s"
         sh = logging.StreamHandler()
         sh.setFormatter(CustomFormatter(fmt))
         self.logger.addHandler(sh)
@@ -112,4 +116,3 @@ class Log(object):
     def handle_excepthook(self, type, message, stack):
         """" excepthook handle """
         self.logger.error(f'An unhandled exception occured: {message}. Traceback: {traceback.extract_tb(stack,1)}')
-

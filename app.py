@@ -17,6 +17,8 @@
 
 import sys
 
+from lib.utils import fix_float
+
 sys.path.append("..")
 
 # simple check if python 3 is used
@@ -40,16 +42,14 @@ try:
     from lib import gotifymessage as gotify
     from lib import calculator
     from lib import discoveryitems
-    import paho.mqtt.publish as publish
-
+    from lib import utils
     from conf import *
 except Exception as e:
     print('Configuration error {}, check config.py'.format(e))
     sys.exit(1)
 
 # register the application logger
-log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
-
+log = logger.Log(__name__, LOG_LEVEL, LOG_DIR, LOG_SHOWLINES)
 
 def publishMqtt(topic: str = '', payload: str = '', retain: bool = False) -> bool:
     """publish the mqtt payload to the defined brocker"""
@@ -60,6 +60,7 @@ def publishMqtt(topic: str = '', payload: str = '', retain: bool = False) -> boo
         return True
     except BaseException as e:
         log.error(f"Error app.pbulishMqtt, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+        devicedata.lastError = str(e)
         return False
 
 # ---------------------------------------------------
@@ -71,96 +72,123 @@ class devicedata():
     field = ""
     last = 0.00
     modified = 0
-    time = datetime.now()
+    time =  datetime.min
+    lastcall = datetime.min
     logInfo = False
     heartBeatTime = 10
     runCounter = 0
+    deviceversion = ""
+    device_info = ""
+    lastError = "None"
+
 
 async def heartBeat():
     """simple heartbeat"""
-    devicedata.time = datetime.now()
-    while True:
-        await asyncio.sleep(devicedata.heartBeatTime)
-        devicedata.runCounter += 1
-        delta = datetime.now() - devicedata.time
-        payload = {
-            "name": devicedata.field,
-            "state": round(devicedata.last, 3),
-            "status": devicedata.status,
-            "modified": devicedata.modified,
-            "counter": devicedata.runCounter,
-            "elapsed": int(delta.total_seconds()),
-            "timedata": devicedata.time.strftime(DATEFORMAT_TIMESTAMP),
-            "timestamp": datetime.now().strftime(DATEFORMAT_TIMESTAMP)
-        }
-        # log.debug("heartBeat {}".format(payload))
-        publishMqtt(topic=MQTT_CHECK_HEARTBEAT_TOPIC, payload=json.dumps(payload, ensure_ascii=False), retain=False)
+    try:
+        while True:
+            await asyncio.sleep(devicedata.heartBeatTime)
+            devicedata.runCounter += 1
+            delta = datetime.now() - devicedata.time
+            payload = {
+                "name": devicedata.field,
+                "state": round(devicedata.last, 3),
+                "status": devicedata.status,
+                "modified": devicedata.modified,
+                "counter": devicedata.runCounter,
+                "elapsed": int(delta.total_seconds()),
+                "runnigtime": utils.runningTime(delta.total_seconds()),
+                "lastcall": devicedata.lastcall.strftime(DATEFORMAT_TIMESTAMP),
+                "timedata": devicedata.time.strftime(DATEFORMAT_TIMESTAMP),
+                "timestamp": datetime.now().strftime(DATEFORMAT_TIMESTAMP),
+                "lasterror": devicedata.lastError,
+                "hostname": DATA_HOSTNAME
+            }
+            # log.debug("heartBeat {}".format(payload))
+            publishMqtt(topic=MQTT_CHECK_HEARTBEAT_TOPIC, payload=json.dumps(payload, ensure_ascii=False), retain=False)
+
+    except BaseException as e:
+        log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+        devicedata.lastError = str(e)
 
 # ---------------------------------------------------
 # main application
 # ---------------------------------------------------
 async def main():
     """main application"""
-    log.debug("Start main {}".format(APPS_NAME))
+    try:
+        log.debug("Start main {}".format(APPS_NAME))
 
-    # send the start message to gotify
-    gotify.sendMessage(APPS_NAME, "start: {} on {}".format(DATA_HOSTNAME, getTimestamp()))
+        # send the start message to gotify
+        gotify.sendMessage(APPS_NAME, "start: {} on {}".format(DATA_HOSTNAME, getTimestamp()))
 
-    # publish the ha discovery items
-    if GASMETER_HA_DISCOVERY_TOPIC:
-        discoveryitems.publish_ha_discovery()
+        # publish the ha discovery items
+        if GASMETER_HA_DISCOVERY_TOPIC:
+            discoveryitems.publish_ha_discovery()
 
-    # get the calculator class
-    _calculator = calculator.Calculator()
+        # get the calculator class
+        _calculator = calculator.Calculator()
 
-    # send last will if MQTT is definded
-    if MQTTHOST:
-        # mqtt brocker defined, send LWT Topic
-        if MQTT_LWT_TOPIC:
-            publishMqtt(topic=MQTT_LWT_TOPIC, payload="Online", retain=True)
-        if MQTT_CHECK_LWT_TOPIC:
-            publishMqtt(topic=MQTT_CHECK_LWT_TOPIC, payload="Online", retain=True)
+        # send last will if MQTT is definded
+        if MQTTHOST:
+            # mqtt brocker defined, send LWT Topic
+            if MQTT_LWT_TOPIC:
+                publishMqtt(topic=MQTT_LWT_TOPIC, payload="Online", retain=True)
+            if MQTT_CHECK_LWT_TOPIC:
+                publishMqtt(topic=MQTT_CHECK_LWT_TOPIC, payload="Online", retain=True)
 
-    """Connect to an ESPHome device and wait for state changes."""
-    cli = aioesphomeapi.APIClient(ESP32_GASMETER_API, ESP32_GASMETER_PORT, ESP32_GASMETER_PASSWORD)
+        """Connect to an ESPHome device and wait for state changes."""
+        cli = aioesphomeapi.APIClient(ESP32_GASMETER_API, ESP32_GASMETER_PORT, ESP32_GASMETER_PASSWORD)
+        await cli.connect(login=True)
 
-    await cli.connect(login=True)
-    sensors, services = await cli.list_entities_services()
-    sensor_by_keys = dict((sensor.key, sensor.name) for sensor in sensors)
+        # reset / init the devicedata on start
+        devicedata.last = 0
+        devicedata.modified = 0
+        devicedata.runCounter = 0
+        devicedata.deviceversion = cli.api_version
+        device_info = await cli.device_info()
+        devicedata.device_info = device_info
 
-    # reset the devicedata on start
-    devicedata.time = datetime.now()
-    devicedata.last = 0
-    devicedata.modified = 0
-    devicedata.runCounter = 0
+        sensors, services = await cli.list_entities_services()
+        sensor_by_keys = dict((sensor.key, sensor.name) for sensor in sensors)
 
-    def cb(state):
-        """callback function to get the sensor values and if fieldname match - start the caclulation"""
-        if isinstance(state, aioesphomeapi.SensorState):
-            fieldName = sensor_by_keys[state.key]
-            devicedata.status = "online"
-            devicedata.field = ESP32_GASMETER_FIELDS
-            if(fieldName == ESP32_GASMETER_FIELDS):
-                # simple check if the value has changed
-                if(state.state != devicedata.last):
-                    # execute the calculation with the changed value
-                    log.debug("{}-state : Start new calculation with key {}".format(APPS_NAME, fieldName))
-                    # call calculater with the file gascounter_total and the gasmeter total value
-                    _calculator.__readData__(name=fieldName, value=state.state)
-                    log.debug("{}-state: End calculation".format(APPS_NAME))
-                    # all for the heartbeat data
-                    devicedata.last = state.state
-                    devicedata.modified += 1
-                    devicedata.time = datetime.now()
-            else:
-                # store the others to the global dictionary
-                ESP32_API_DATA[fieldName.replace(" ", "_").lower()] = state.state
+        def cb(state):
+            """callback function to get the sensor values and if fieldname match - start the caclulation"""
+            try:
+                if isinstance(state, aioesphomeapi.SensorState):
+                    fieldName = sensor_by_keys[state.key]
+                    fieldValue = utils.fix_float(state.state)
+                    devicedata.status = "online"
+                    devicedata.field = ESP32_GASMETER_FIELDS
+                    if(fieldName == ESP32_GASMETER_FIELDS):
+                        # simple check if the value has changed
+                        devicedata.lastcall = datetime.now()
+                        if(fieldValue != devicedata.last):
+                            # execute the calculation with the changed value
+                            log.debug("{}-state : Start new calculation with key {}={}".format(APPS_NAME, fieldName, fieldValue))
+                            # call calculater with the file gascounter_total and the gasmeter total value
+                            _calculator.__readData__(name=fieldName, value=fieldValue)
+                            log.debug("{}-state: End calculation".format(APPS_NAME))
+                            # all for the heartbeat data
+                            devicedata.modified += 1
+                            devicedata.time = datetime.now()
+                        devicedata.last = fieldValue
+                    else:
+                        # store the others to the global dictionary
+                        ESP32_API_DATA[fieldName.replace(" ", "_").lower()] = state.state
 
-            if devicedata.logInfo:
-                log.debug("{}-state: aioesphomeapi Field {}".format(APPS_NAME, fieldName))
+                    if devicedata.logInfo:
+                        log.debug("{}-state: aioesphomeapi Field {}".format(APPS_NAME, fieldName))
 
-    # subscribe the callback function
-    await cli.subscribe_states(cb)
+            except BaseException as e:
+                log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+                devicedata.lastError = str(e)
+
+        # subscribe the callback function
+        await cli.subscribe_states(cb)
+
+    except BaseException as e:
+        log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+        devicedata.lastError = str(e)
 
 # start main application
 log.info(" ❖ {} started".format(APPS_DESCRIPTION))

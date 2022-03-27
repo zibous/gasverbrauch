@@ -13,7 +13,7 @@ from lib import logger
 from conf import *
 
 # register the application logger
-log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
+log = logger.Log(__name__, LOG_LEVEL, LOG_DIR, LOG_SHOWLINES)
 
 
 def __publishitem__(topic_name, type, counter, payload) -> bool:

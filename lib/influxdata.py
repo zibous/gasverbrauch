@@ -8,7 +8,7 @@ try:
     import json
     from datetime import datetime
     from influxdb import InfluxDBClient
-    
+
 
     from conf import *
     from lib import logger
@@ -16,12 +16,12 @@ try:
 except Exception as e:
     print('Import error {}, check requirements.txt'.format(e))
 
-log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
+log = logger.Log(__name__, LOG_LEVEL, LOG_DIR, LOG_SHOWLINES)
 
 # from influxdb import SeriesHelper
 # class EspSeries(SeriesHelper):
 #     """
-        
+
 #         influxclient = InfluxDBClient('influxhost', 8086, database="dbname")
 #         simple call: EspSeries(sensor=name, value=state)
 #     """

@@ -138,6 +138,7 @@ will be send to the console or syslog.
 |--------------------------------------|-------------------------------|
 |LOG_DIR                               |disabled LOG_DIR = None        |
 |LOG_LEVEL                             |Loglevel settings              |
+|LOG_SHOWLINES                         |shows method and line numbers  |
 
 ### Mqtt Brocker (optional)
 To turn this off, set `set MQTTHOST = None` otherwise all variables must contain valid values.

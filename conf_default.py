@@ -63,6 +63,8 @@ LOG_LEVEL = 10  # DEBUG: 10
 # LOG_LEVEL = 50  # CRITICAL: 50
 # LOG_LEVEL = 100 # DISABLED: 100
 LOG_DIR = os.path.join(os.path.dirname(__file__), 'logs/')
+# show method and line numbers
+LOG_SHOWLINES = False
 
 # ems-esp api: has to be defined
 EMS_API_URL = "http://ems-heizung.siebler.home/api/boiler"

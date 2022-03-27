@@ -7,7 +7,7 @@ from lib import logger
 from conf import *
 
 # register the application logger
-log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
+log = logger.Log(__name__, LOG_LEVEL, LOG_DIR, LOG_SHOWLINES)
 
 
 def sendMessage(title: str = GOTIFY_TITLE, message: str = "", priority: int = 2) -> bool:

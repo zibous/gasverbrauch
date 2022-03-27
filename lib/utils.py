@@ -4,6 +4,7 @@
 import sys
 import os
 import json
+import math
 import string
 from uptime import uptime
 
@@ -11,9 +12,13 @@ from uptime import uptime
 def dumps(o) -> str:
     """helper method to convert dictionary to object
     """
-    return json.dumps(o, sort_keys=True, indent=4)
+    try:
+        return json.dumps(o, sort_keys=True, indent=4)
+    except BaseException as e:
+        print(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+        return ""
 
-def write_to_file(data: str, filepath: str) -> bool:  
+def write_to_file(data: str, filepath: str) -> bool:
     try:
         with open(filepath, "w+") as f:
             f.write(data)
@@ -49,30 +54,34 @@ def loadjsondata(filename: str = None) -> dict:
         print(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
         return None
 
-    
+def runningTime(total_seconds) -> str:
+    try:
+        MINUTE = 60
+        HOUR = MINUTE * 60
+        DAY = HOUR * 24
+        # Get the days, hours, etc:
+        days = int(total_seconds / DAY)
+        hours = int((total_seconds % DAY) / HOUR)
+        minutes = int((total_seconds % HOUR) / MINUTE)
+        seconds = int(total_seconds % MINUTE)
+        # Build up the pretty output (like this: "N days, N hours, N minutes, N seconds")
+        output = ""
+        if days > 0:
+            output += str(days) + " " + (days == 1 and "day" or "days") + ", "
+        if len(output) > 0 or hours > 0:
+            output += str(hours) + " " + (hours == 1 and "hour" or "hours") + ", "
+        if len(output) > 0 or minutes > 0:
+            output += str(minutes) + " " + (minutes == 1 and "minute" or "minutes") + ", "
+        output += str(seconds) + " " + (seconds == 1 and "second" or "seconds")
+        return output
+    except BaseException as e:
+        print(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
+        return ""
+
 def up_time() -> str:
     """calculates the uptime"""
     total_seconds = uptime()
-    # Helper vars:
-    MINUTE = 60
-    HOUR = MINUTE * 60
-    DAY = HOUR * 24
-    # Get the days, hours, etc:
-    days = int(total_seconds / DAY)
-    hours = int((total_seconds % DAY) / HOUR)
-    minutes = int((total_seconds % HOUR) / MINUTE)
-    seconds = int(total_seconds % MINUTE)
-    # Build up the pretty output (like this: "N days, N hours, N minutes, N seconds")
-    output = ""
-    if days > 0:
-        output += str(days) + " " + (days == 1 and "day" or "days") + ", "
-    if len(output) > 0 or hours > 0:
-        output += str(hours) + " " + (hours == 1 and "hour" or "hours") + ", "
-    if len(output) > 0 or minutes > 0:
-        output += str(minutes) + " " + (minutes == 1 and "minute" or "minutes") + ", "
-    output += str(seconds) + " " + (seconds == 1 and "second" or "seconds")
-    return output
-
+    return (runningTime(total_seconds))
 
 def round_digits(x: float = 0.00, decimal_places: int = 2) -> float:
     """helper to round a number based on the decimal places"""
@@ -108,6 +117,22 @@ def calcTotal(field1: float = 0.00, field2: float = 0.00, field3: float = 0.00) 
     result = round(float(field1) + float(field2) - float(field3), 3)
     return float(result)
 
+def fix_float(value: float) -> float:
+    """Fix precision for single-precision floats and return what was probably
+    meant as a float.
+    Unfortunately the float representation of 0.1 converted to a double is not the
+    double representation of 0.1, but 0.10000000149011612.
+    This methods tries to round to the closest decimal value that a float of this
+    magnitude can accurately represent.
+    """
+    if value == 0 or not math.isfinite(value):
+        return value
+    abs_val = abs(value)
+    # assume ~7 decimals of precision for floats to be safe
+    l10 = math.ceil(math.log10(abs_val))
+    prec = 7 - l10
+    return round(value, prec)
+
 
 def remove_umlaut(string) -> str:
     """
@@ -137,17 +162,16 @@ def generate_csv_data(data: dict) -> str:
     # Defining CSV columns in a list to maintain
     # the order
     csv_columns = data.keys()
-    # Generate the first row of CSV 
+    # Generate the first row of CSV
     csv_data = ",".join(csv_columns) + "\n"
     # Generate the single record present
     new_row = list()
     for col in csv_columns:
         new_row.append(str(data[col]))
-    # Concatenate the record with the column information 
+    # Concatenate the record with the column information
     # in CSV format
     csv_data += ",".join(new_row) + "\n"
     return csv_data
-    
 
 def flatten_json(nested_json) -> string:
     """
@@ -169,6 +193,6 @@ def flatten_json(nested_json) -> string:
                 i += 1
         else:
             out[name[:-1]] = x
-            
+
     flatten(nested_json)
     return out

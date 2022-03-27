@@ -16,6 +16,7 @@ try:
 
     from conf import *
     from lib import logger
+    from lib import utils
     from lib import gotifymessage as gotify
     from lib import influxdata
 
@@ -25,7 +26,7 @@ except Exception as e:
     sys.exit(1)
 
 # register the application logger
-log = logger.Log(__name__, LOG_LEVEL, LOG_DIR)
+log = logger.Log(__name__, LOG_LEVEL, LOG_DIR, LOG_SHOWLINES)
 
 
 class Calculator():
@@ -165,7 +166,7 @@ class Calculator():
                     if(self.curr_data['heater_active'] == 'on'):
                         self.curr_data['mode'] = EMS_MODES['heat']
                 # get the gas consumption
-                gas_delta = float((self.curr_data['gas_total'] - self.prev_data['gas_total']))
+                gas_delta = utils.fix_float((self.curr_data['gas_total'] - self.prev_data['gas_total']))
                 # calculate the current gas consumption
                 self.curr_data['gasverbrauch'] = round(gas_delta, 3)
                 if(self.curr_data['mode'] == EMS_MODES['water']):
