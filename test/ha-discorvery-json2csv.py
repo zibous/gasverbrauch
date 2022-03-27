@@ -3,8 +3,8 @@
 
 # call: python3 ha-discorvery-json2csv.py
 
-import sys
-sys.path.append("..")
+from os import sys, path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 from pandas import json_normalize
 from lib import utils

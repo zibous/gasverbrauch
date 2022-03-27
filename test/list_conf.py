@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from os import sys, path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
-import sys
-sys.path.append("..")
 
 from pandas import json_normalize
 from conf_default import *

@@ -4,8 +4,8 @@
 # ------------------------------------------------------------------
 # Simple testcase for aioesphomeapi
 # ------------------------------------------------------------------
-import sys
-sys.path.append("..")
+from os import sys, path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 from lib import logger
 from conf import *
@@ -53,6 +53,9 @@ async def main():
     cli = aioesphomeapi.APIClient(ESP32_GASMETER_API, ESP32_GASMETER_PORT, ESP32_GASMETER_PASSWORD)
 
     await cli.connect(login=True)
+    
+    print(aioesphomeapi.LogLevel)
+
     sensors, services = await cli.list_entities_services()
     sensor_by_keys = dict((sensor.key, sensor.name) for sensor in sensors)
 
