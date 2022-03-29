@@ -43,6 +43,12 @@ SMARTMETER_NAME = 'GB172/14 + BK-G2.5'  # Name of the smartmeter
 SMARTMETER_IDENTIFIER = "Gaszähler Elster BK-G4 MT"
 SMARTMETER_MANUFATURER = "Elster"
 SMARTMETER_MODEL = "Gaszähler Elster BK-G4 MT"
+SMARTMETER_DEVICE = {
+    "url":"http://wug2022.local",
+    "platform": "text_sensor",
+    "dataid":"gasmeterdata",
+    "heartbeatTime": 30
+}
 
 # application settings has to be defined
 APPS_VERSION = '1.0.3'  # Application version
@@ -107,7 +113,7 @@ GASMETER_HA_DISCOVERY_ITEMS = "{}HA-{}.json".format(DATADIR, SMARTMETER_ID)
 GASMETER_HA_DISCOVERY_SAVE = True
 
 # all for the influx database (optional)
-# disable INFLUXDB Service: set INFLUXDB = None
+# disable INFLUXDB Service: set INFLUXDB_HOST = None
 INFLUXDB_NAME = 'historydata'
 INFLUXDB_HOST = 'influx.local'
 INFLUXDB_PORT = 8086

@@ -11,6 +11,90 @@ A Python application that reads the data from EMS-ESP and the gas meter, recalcu
 
 
 
+## Dataprovider
+With a simple HTTP request, the data from the gas meter is queried first and if the gas
+consumption has changed compared to the previous query, then the data from the EMS-ESP32 is queried in a further HTTP request.
+The gas consumption is then assigned according to the operating mode (heating, boiler)
+and finally the consumption data is calculated
+
+1. The fist dataprovider is the gasmeter ***ESP32 Device***.
+  `http://gasmeter.local/text_sensor/gasmeterdata`
+
+   <br>
+
+    ```yaml
+    text_sensor:
+      - platform: template
+        id: gasmeterdata
+        update_interval: ${update_interval}
+        lambda: |-
+            char buf[512];
+            sprintf(buf, "%.3f|%.3f|%s",
+                  id(gas_meter_displayvalue),
+                  id(gas_meter_totalm3),
+                  id(systime).state.c_str()
+                  );
+            std::string s = buf;
+            return s;
+    ```
+    <br>
+    Data:
+
+    ```json
+        {
+          "id":"text_sensor-gasmeterdata",
+          "value":"29845.033|784.407|2022-03-29T16:52:20",
+          "state":"29845.033|784.407|2022-03-29T16:52:20"
+        }
+    ```
+  2. The 2nd dataprovider is the ***EMS-ESP Device***
+    `http://ems-heizung.lcoal/api/boiler`
+     <br>
+     data:
+     ```json
+      {
+        "heatingactive": "off",
+        "tapwateractive": "off",
+        "selflowtemp": 33,
+        "selburnpow": 100,
+        "heatingpumpmod": 41,
+        "outdoortemp": 13.7,
+        "curflowtemp": 31.9,
+        "burngas": "off",
+        "burngas2": "off",
+        "flamecurr": 0,
+        "heatingpump": "on",
+        "fanwork": "off",
+        "ignwork": "off",
+        "oilpreheat": "off",
+        "heatingactivated": "on",
+        "heatingtemp": 60,
+        "pumpmodmax": 100,
+        "pumpmodmin": 10,
+        "pumpdelay": 5,
+        "burnminperiod": 10,
+        "burnminpower": 0,
+        "burnmaxpower": 100,
+        "boilhyston": -6,
+        "boilhystoff": 6,
+        "setflowtemp": 33,
+        "setburnpow": 100,
+        "curburnpow": 0,
+        "burnstarts": 5275,
+        "burnworkmin": 110200,
+        "-- heatworkmin": 100440,
+        "ubauptime": 405220,
+        "lastcode": "0Y(276) 24.11.2021 03:51 (0 min)",
+        "servicecode": "0Y",
+        "servicecodenumber": 204,
+        "maintenancemessage": "H00",
+        "maintenance": "date",
+        "maintenancetime": 6000,
+        "maintenancedate": "07.07.2023"
+      }
+    ```
+
+
 ## Results `Gasverbrauch Service Application`
 - MQTT Message
   - Boiler (gas consumption / costs per hour, day, month, year )
@@ -63,11 +147,12 @@ Strictly required: All variables must contain valid values:
 | REPORTFILE             | Optional report filename                |
 | DATA_HOSTNAME          | Curren host name                        |
 | DATA_PROVIDER          | Homeassistant provided by ...           |
-| SMARTMETER_ID          | internal used smartmeter identification |
+| SMARTMETER_ID          | Internal used smartmeter identification |
 | SMARTMETER_IDENTIFIER  | Homeassistant device name               |
 | SMARTMETER_MANUFATURER | Homeassistant device manufacturer       |
 | SMARTMETER_MODEL       | Homeassistant model name                |
 | SMARTMETER_NAME        | Name of the smartmeter                  |
+| SMARTMETER_DEVICE      | The smartmeter ESP Gasmeter device      |
 
 ### Date & Time settings
 Strictly required: All variables must contain valid values:

@@ -9,9 +9,10 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import asyncio
 import aioesphomeapi
+from aioesphomeapi.api_pb2 import SubscribeLogsResponse
 
+from lib.utils import fix_float
 from lib import logger
-from lib import utils
 from lib import utils
 from conf import *
 
@@ -68,7 +69,7 @@ async def main():
     try:
         log.debug("Start main {}".format(APPS_NAME))
 
-        cli = aioesphomeapi.APIClient(ESP32_GASMETER_API, ESP32_GASMETER_PORT, ESP32_GASMETER_PASSWORD)
+        cli = aioesphomeapi.APIClient("wug2022.siebler.home", ESP32_GASMETER_PORT, ESP32_GASMETER_PASSWORD)
         await cli.connect(login=True)
 
        # reset / init the devicedata on start
@@ -83,16 +84,19 @@ async def main():
 
         def change_callback(state):
             """Print the state changes of the device."""
+            log.warning(state)
             try:
                 devicedata.status = "online"
                 devicedata.field = ESP32_GASMETER_FIELDS
                 devicedata.lastcall = datetime.now()
+
                 if isinstance(state, aioesphomeapi.SensorState):
                     fieldName = sensor_by_keys[state.key]
                     fieldValue = utils.fix_float(state.state)
-                    if(fieldName == ESP32_GASMETER_FIELDS):
+                    ## log.info("Check State for {} {} vs. {}".format(fieldName, fieldValue,devicedata.last))
+                    if(fieldName == "WUG2 Gasverbrauch gesamt"):
                         if(fieldValue != devicedata.last):
-                            log.info("State changed for {} {}".format(fieldName, fieldValue))
+                            log.info("----> State changed for {} {} previous:{}".format(fieldName, fieldValue,devicedata.last))
                             devicedata.modified += 1
                             devicedata.time = datetime.now()
                         else:
@@ -106,8 +110,18 @@ async def main():
                 log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
                 devicedata.lastError = str(e)
 
+        def log_callback(msg: SubscribeLogsResponse):
+           time_ = datetime.now().time().strftime("[%H:%M:%S]")
+           text = msg.message
+           ## print(time_ + text.decode("utf8", "backslashreplace"))
+           log.info(text.decode("utf8", "backslashreplace"))
+
+
         # Subscribe to the state changes
         await cli.subscribe_states(change_callback)
+
+        # Subscribe to the logging messages
+        await cli.subscribe_logs(log_callback, log_level=4)
 
     except BaseException as e:
         log.error(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")

@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 # -*- coding":" utf-8 -*-
 
+from re import U
 import sys
+from urllib import response
 
 # all requirements packages
 try:
@@ -267,6 +269,7 @@ class Calculator():
                             self.curr_data['gas_total'],
                             self.curr_data['gas_heater'],
                             self.curr_data['gas_boiler'],
+                            ESP32_API_DATA['wug_timestamp'],
                             now.strftime(DATEFORMAT_TIMESTAMP)
                         )
                         log.debug("{}: Save Report: {} to file{}".format(sys._getframe().f_code.co_name, datalist, REPORTFILE))
@@ -362,16 +365,16 @@ class Calculator():
     def __readData__(self, name, value) -> bool:
         """Reads the data form the EMS-ESP and ESP Gasmeter device """
         try:
-            if(name == 'WUG Gasverbrauch gesamt'):
+            if(name == ESP32_GASMETER_FIELDS):
 
                 log.debug("{}: Read Data started".format(sys._getframe().f_code.co_name))
 
-                # calc the value from the gasmeter
+                # calc the value from the gasmeter (current total value for the current year)
                 self.gasvalue = value
 
                 # get the info from the ems-esp device
                 if EMS_API_URL:
-                    response = requests.get(EMS_API_URL)
+                    response = utils.getResponse(EMS_API_URL)
                     if response.status_code != 200:
                         log.warning("{}: Read Data Error {}".format(sys._getframe().f_code.co_name, response.status_code))
                         return False
@@ -443,11 +446,9 @@ class Calculator():
                         self.curr_data['state_class'] = 'measurement'
                         self.curr_data['device_class'] = 'gas'
                         self.curr_data['attribution'] = DATA_PROVIDER
-
                         # publish and save the data
                         self.__publishData__()
                         self.__saveData__()
-
                         # pubish data every hour to the influxdb every 10 min
                         # if(self.__getElapsedTime__(self.lastRun) >= 10):
                         self.__publishToInfluxdb__()

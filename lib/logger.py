@@ -108,7 +108,8 @@ class Log(object):
         """print helper method"""
         if(self.loglevel < 100):
             print(msg, end)
-
+    def newLine(self, len:int=80):
+        print("-" * len,'\r')
     def handle_excepthook_debug(self, type, message, stack):
         """"debug excepthook handle """
         self.logger.critical(f'An unhandled exception occured: {message}. Traceback: {traceback.format_tb(stack)}')

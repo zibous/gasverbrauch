@@ -6,24 +6,29 @@ import os
 import json
 import math
 import string
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
+from requests.exceptions import Timeout
 from uptime import uptime
 
-
 def dumps(o) -> str:
-    """helper method to convert dictionary to object
-    """
+    """helper method to convert dictionary to object"""
     try:
         return json.dumps(o, sort_keys=True, indent=4)
     except BaseException as e:
         print(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
         return ""
 
+
 def write_to_file(data: str, filepath: str) -> bool:
+    """appends the content(str) to the defined file"""
     try:
         with open(filepath, "w+") as f:
             f.write(data)
     except:
         raise Exception(f"Saving data to {filepath} encountered an error")
+
 
 def savefile(content, datatype: str = 'json', filename: str = None) -> bool:
     """save the content to the defined file based on the datatype"""
@@ -54,7 +59,46 @@ def loadjsondata(filename: str = None) -> dict:
         print(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
         return None
 
+def getResponse(url: str = "",timeout:int=5):
+    """ get the http adapter response"""
+    retry_strategy = Retry(total=3, status_forcelist=[429, 500, 502, 503, 504], allowed_methods=["HEAD", "GET", "OPTIONS"])
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+    http = requests.Session()
+    http.mount("https://", adapter)
+    http.mount("http://", adapter)
+    response = requests.get(url, timeout=timeout)
+    response.raise_for_status()
+    return response
+
+def getESBHomeData(url: str = "", platform: str = "sensor", id: str = "", timeout:int=5) -> dict:
+    """get the data from the defined platform and device id"""
+    strURL = "{}/{}/{}".format(url, platform, id)
+    ## default data
+    dictData = {
+        "url": strURL,
+        "field": id,
+        "value": -1,
+        "state": "loading",
+        "responsecode": 400,
+        "responsemessage": "not found!",
+        "encoding": "none"
+    }
+    response = getResponse(url=strURL)
+    if(response.status_code == 200):
+        data = json.loads(response.text)
+        if(data):
+            dictData["field"] = data["id"]
+            dictData["value"] = data["value"]
+            dictData["state"] = "Ready"
+            dictData["responsecode"] = response.status_code
+            dictData["responsemessage"] = response.status_code
+        else:
+            dictData["state"] = "Error"
+            dictData["responsecode"] = response.status_code
+    return dictData
+
 def runningTime(total_seconds) -> str:
+    """calculates the running time in days, hour, minute and seconds"""
     try:
         MINUTE = 60
         HOUR = MINUTE * 60
@@ -78,10 +122,18 @@ def runningTime(total_seconds) -> str:
         print(f"Error {sys._getframe().f_code.co_name}, {str(e)}, {str(e)} line {sys.exc_info()[-1].tb_lineno}")
         return ""
 
+def repeat_string(a_string, target_length):
+    """a_string * n with n as an integer to repeat a_string n number of times."""
+    number_of_repeats = target_length // len(a_string) + 1
+    a_string_repeated = a_string * number_of_repeats
+    a_string_repeated_to_target = a_string_repeated[:target_length]
+    return a_string_repeated_to_target
+
 def up_time() -> str:
     """calculates the uptime"""
     total_seconds = uptime()
     return (runningTime(total_seconds))
+
 
 def round_digits(x: float = 0.00, decimal_places: int = 2) -> float:
     """helper to round a number based on the decimal places"""
@@ -112,10 +164,12 @@ def divideNumber(field1: float = 0.00, field2: float = 0.00) -> float:
         return float(result)
     return 0.00
 
+
 def calcTotal(field1: float = 0.00, field2: float = 0.00, field3: float = 0.00) -> float:
     """calcs the total for the defined fields"""
     result = round(float(field1) + float(field2) - float(field3), 3)
     return float(result)
+
 
 def fix_float(value: float) -> float:
     """Fix precision for single-precision floats and return what was probably
@@ -158,7 +212,9 @@ def remove_umlaut(string) -> str:
     string = string.decode('utf-8')
     return string
 
+
 def generate_csv_data(data: dict) -> str:
+    """generates the csv data form the defined dict items"""
     # Defining CSV columns in a list to maintain
     # the order
     csv_columns = data.keys()
@@ -173,6 +229,7 @@ def generate_csv_data(data: dict) -> str:
     csv_data += ",".join(new_row) + "\n"
     return csv_data
 
+
 def flatten_json(nested_json) -> string:
     """
         Flatten json object with nested keys into a single level.
@@ -182,6 +239,7 @@ def flatten_json(nested_json) -> string:
             The flattened json object if successful, None otherwise.
     """
     out = {}
+
     def flatten(x, name=''):
         if type(x) is dict:
             for a in x:
