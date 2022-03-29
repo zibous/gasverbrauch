@@ -12,7 +12,7 @@ A Python application that reads the data from EMS-ESP and the gas meter, recalcu
 
 
 ## Dataprovider
-With a simple HTTP request, the data from the gas meter is queried first and if the gas
+With a simple HTTP request (aioesphomeapi was unstable and poorly documented. therefore switched to simple http request), the data from the gas meter is queried first and if the gas
 consumption has changed compared to the previous query, then the data from the EMS-ESP32 is queried in a further HTTP request.
 The gas consumption is then assigned according to the operating mode (heating, boiler)
 and finally the consumption data is calculated
@@ -175,13 +175,9 @@ Strictly required: All variables must contain valid values:
 Strictly required: All variables must contain valid values:
 | variable                | remarks                                            |
 | ----------------------- | -------------------------------------------------- |
-| EMS_API_URL             | ESP32 GASMETER API URL                             |
-| EMS_MODES               | List for heating status                            |
-| ESP32_API_DATA          | EMS_ESP Rest caller URL                            |
-| ESP32_GASMETER_API      | ESPHome API call (device and hostname, IP Address) |
-| ESP32_GASMETER_FIELDS   | ESP32 Gas consumption field name                   |
-| ESP32_GASMETER_PASSWORD | optional ESPHome API Call password                 |
-| ESP32_GASMETER_PORT     | ESPHome ESP32 Device Port (default: 6053)          |
+| EMS_MODES               | internal: List for heating status                  |
+| ESP32_API_DATA          | internal: EMS_ESP DATA                             |
+| ESP32_GASMETER_FIELDS   | ESP32 Gas consumption dataprovider field name      |
 
 ### Homeassistant auto discovery (optional)
 To turn this off, set `set GASMETER_HA_DISCOVERY_TOPIC = None` otherwise all variables must contain valid values.
@@ -262,11 +258,10 @@ To turn this off, set `set COST_CALCULATION_ON = False` otherwise all variables 
 
 ## Requirements
  - python 3.9 (min)
- - aioesphomeapi==10.8.2
  - influxdb==5.3.1
  - paho_mqtt==1.6.1
  - requests==2.25.1
- - unicode_slugify==0.1.5
+ - importlib_metadata
  - uptime==3.0.1
 
 ## Continuous Daemon/Service

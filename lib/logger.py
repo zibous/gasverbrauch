@@ -3,7 +3,6 @@
 import logging
 import sys
 import traceback
-import json
 from time import gmtime, strftime
 
 

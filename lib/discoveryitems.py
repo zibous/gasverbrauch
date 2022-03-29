@@ -4,7 +4,6 @@
 import sys
 import json
 import os
-import string
 import os.path
 from uuid import uuid4
 import paho.mqtt.publish as publish

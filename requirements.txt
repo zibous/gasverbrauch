@@ -1,7 +1,10 @@
 aioesphomeapi==10.8.2
+importlib_metadata==4.0.1
 influxdb==5.3.1
 paho_mqtt==1.6.1
 pandas==1.4.1
 PyYAML==6.0
-requests==2.25.1
+requests==2.27.1
+twilio==7.8.0
 uptime==3.0.1
+urllib3==1.26.9

@@ -1,14 +1,11 @@
 #!/usr/bin/python3
 # -*- coding":" utf-8 -*-
 
-from re import U
 import sys
 from urllib import response
 
 # all requirements packages
 try:
-    from xmlrpc.client import boolean
-    import requests
     import json
     import time
     import os
